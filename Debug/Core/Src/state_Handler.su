@@ -1,0 +1,7 @@
+../Core/Src/state_Handler.c:3:6:Initilisation_State_Handler	4	static
+../Core/Src/state_Handler.c:11:6:Reset_State_Handler	4	static
+../Core/Src/state_Handler.c:19:6:Idle_State_Handler	4	static
+../Core/Src/state_Handler.c:25:6:WRSide_Train_Presence_State_Handler	4	static
+../Core/Src/state_Handler.c:30:6:WLSide_Train_Presence_State_Handler	4	static
+../Core/Src/state_Handler.c:35:6:Train_Exit_State_Handler	4	static
+../Core/Src/state_Handler.c:40:6:Log_Data_State_Handler	4	static
