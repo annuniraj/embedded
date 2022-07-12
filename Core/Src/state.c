@@ -10,7 +10,7 @@
 
 struct StatesStruct test_states={Initilisation_State, NULL_State}; // current state defined as initilisation state, next state defined as NULL state
 
-myStates Read_state()
+myStates Get_state()
 {
 	return	 test_states.Current_State;
 }

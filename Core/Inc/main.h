@@ -17,6 +17,7 @@
   *
   ******************************************************************************
   */
+#pragma once
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -39,7 +40,8 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-
+void spi_wb(uint8_t b);
+uint8_t spi_rb(void);
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

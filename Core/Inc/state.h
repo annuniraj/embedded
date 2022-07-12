@@ -6,6 +6,7 @@
 
 #include "common.h"
 
+
 struct StatesStruct
 {
 
@@ -14,5 +15,5 @@ struct StatesStruct
 
 extern struct StatesStruct test_states;
 
-myStates Read_state();
+myStates Get_state();
 void Set_state(myStates N_S);

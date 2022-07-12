@@ -33,7 +33,8 @@ Core/Src/stm32f3xx_hal_msp.o: ../Core/Src/stm32f3xx_hal_msp.c \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h \
  ../Core/Inc/state.h ../Core/Inc/common.h ../Core/Inc/event.h \
- ../Core/Inc/state_Handler.h
+ ../Core/Inc/state_Handler.h ../Core/Inc/TCP_IP.h \
+ ../Core/Inc/wizchip_conf.h ../Core/Inc/w5500.h ../Core/Inc/socket.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h:
 ../Core/Inc/stm32f3xx_hal_conf.h:
@@ -72,3 +73,7 @@ Core/Src/stm32f3xx_hal_msp.o: ../Core/Src/stm32f3xx_hal_msp.c \
 ../Core/Inc/common.h:
 ../Core/Inc/event.h:
 ../Core/Inc/state_Handler.h:
+../Core/Inc/TCP_IP.h:
+../Core/Inc/wizchip_conf.h:
+../Core/Inc/w5500.h:
+../Core/Inc/socket.h:

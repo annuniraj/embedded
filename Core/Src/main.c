@@ -67,7 +67,17 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+uint8_t spi_rb(void)
+{
+	uint8_t rbuf;
+	HAL_SPI_Receive(&hspi3, &rbuf, 1, 0xffffffff);
+	return rbuf;
+}
 
+void spi_wb(uint8_t b)
+{
+	HAL_SPI_Transmit(&hspi3, &b, 1, 0xffffffff);
+}
 /* USER CODE END 0 */
 
 /**
@@ -114,7 +124,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  switch(Read_state())
+	  switch(Get_state())
 	  	  {
 	  	  case Initilisation_State:
 	  		  if(Get_event()==Reset_Event)
@@ -132,6 +142,7 @@ int main(void)
 
 	  	  case Idle_State:
 	  		  if(Get_event()==WRSide_Train_Detect_Event)
+	  			  //Nothing should happen in the idle state! It only polls for a change in state. Event setting and getting and state change happens WRT ISR
 	  		  {
 	  			  WRSide_Train_Presence_State_Handler();
 	  		  }
@@ -533,7 +544,16 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   case WR_IP_Pin:
 	  if(Get_state()==Idle_State)
 	  {
+		  //Set state here aswell
+		  //if the state is WR or WL then log data etc etc
+		  //If the state is train exit then call the exit handler function.
+		  //Maybe we should store the previous state too, so that exit handler is only called during one isr. Either this one or the one above
 		  Set_event(WRSide_Train_Detect_Event);
+	  }
+	  else if (1)//(Counts of WL_Counts==WR_Counts)
+	  {
+		  //
+		  Set_event(Train_Exit_Event);
 	  }
 	  break;
 
@@ -541,10 +561,26 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	  if(Get_state()==Idle_State)
 	  {
 		  Set_event(WLSide_Train_Detect_Event);
+		  //Set state here not just the event
+	  }
+	  else if (1)//(Counts of WL_Counts==WR_Counts)
+	  {
+		  //
+		  Set_event(Train_Exit_Event);
 	  }
 	  break;
 
   case F_IP_Pin:
+	  if(Get_state==WRSide_Train_Presence_State)
+	  {
+		  //Laser Trigger
+		  //Camera Trigger
+	  }
+	  else if(Get_state==WLSide_Train_Presence_State)
+	  {
+		  //Laser Trigger
+		  //Camera Trigger
+	  }
 	  //HAL_Delay(100);
 	  break;
   }

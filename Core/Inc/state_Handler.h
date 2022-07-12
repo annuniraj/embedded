@@ -1,4 +1,11 @@
 #pragma once
+
+#include "state.h"
+#include "event.h"
+
+#include "TCP_IP.h"
+#include "ring.h"
+
 #ifndef INC_STATE_HANDLER_H_
 #define INC_STATE_HANDLER_H_
 
