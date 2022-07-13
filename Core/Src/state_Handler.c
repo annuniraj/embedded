@@ -16,12 +16,21 @@ void Reset_State_Handler()
 {
 	Set_state(Reset_State);
 	Reset_event();
-	//reset the buffers,count variables, and other defined variables
-	//Initialize Ring Buffers//
+	//Reset the RingBuffers
 	RingInit(&WR_Ring,&WR_Samples[0],BUFFERSIZE,sizeof(buff_size));
-	RingInit(&TR_Ring,&TR_Samples[0],BUFFERSIZE,sizeof(buff_size));
 	RingInit(&WL_Ring,&WL_Samples[0],BUFFERSIZE,sizeof(buff_size));
-	RingInit(&TL_Ring,&TL_Samples[0],BUFFERSIZE,sizeof(buff_size));
+	RingInit(&FCT_Ring,&FCT_Samples[0],BUFFERSIZE,sizeof(buff_size));
+	//Reset the Counts
+	WR_Counts=0;
+	WL_Counts=0;
+	FCT_Counts=0;
+	//Reset the 32 bit timer 2
+	Timer2_Stop(); //Timer Stopped
+
+	Timer2_DeInitilized();//Timer DeInitilized
+
+	Timer2_Initilized(); //Timer Initialized
+
 	//set the event to idle
 	Set_event(Idle_Event);
 }

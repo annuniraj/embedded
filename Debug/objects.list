@@ -1,3 +1,5 @@
+"./Core/Src/Interrupt_Services.o"
+"./Core/Src/Save_Data.o"
 "./Core/Src/TCP_IP.o"
 "./Core/Src/dhcp.o"
 "./Core/Src/event.o"

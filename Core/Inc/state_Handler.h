@@ -5,6 +5,8 @@
 
 #include "TCP_IP.h"
 #include "ring.h"
+#include "Interrupt_Services.h"
+#include "main.h"
 
 #ifndef INC_STATE_HANDLER_H_
 #define INC_STATE_HANDLER_H_

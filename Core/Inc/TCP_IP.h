@@ -6,7 +6,8 @@
 #endif /* INC_TCP_IP_H_ */
 
 #define PORT_ADDR		9099
-#define GRAB_CMD		"GRABSTART"
+#define GRAB_START_CMD	"GRABSTART"
+#define GRAB_STOP_CMD	"GRABSTOP"
 #define LOG_START_CMD	"LOGSTART"
 #define LOG_STOP_CMD	"LOGSTOP"
 

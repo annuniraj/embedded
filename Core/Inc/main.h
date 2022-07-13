@@ -86,7 +86,9 @@ void Error_Handler(void);
 #define LA_OP_Pin GPIO_PIN_9
 #define LA_OP_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
-
+void Timer2_Initilized();
+void Timer2_Stop();
+void Timer2_DeInitilized();
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -78,6 +78,21 @@ void spi_wb(uint8_t b)
 {
 	HAL_SPI_Transmit(&hspi3, &b, 1, 0xffffffff);
 }
+
+void Timer2_Stop()
+{
+	HAL_TIM_Base_Stop(&htim2);
+}
+
+void Timer2_DeInitilized()
+{
+	HAL_TIM_Base_DeInit(&htim2);
+}
+
+void Timer2_Initilized()
+{
+	HAL_TIM_Base_Init(&htim2);
+}
 /* USER CODE END 0 */
 
 /**
