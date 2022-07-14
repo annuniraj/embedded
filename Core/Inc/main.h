@@ -88,7 +88,9 @@ void Error_Handler(void);
 /* USER CODE BEGIN Private defines */
 void Timer2_Initilized();
 void Timer2_Stop();
+void Timer2_Start();
 void Timer2_DeInitilized();
+int Timer2_GetTimer();
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

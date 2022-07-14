@@ -93,6 +93,17 @@ void Timer2_Initilized()
 {
 	HAL_TIM_Base_Init(&htim2);
 }
+
+void Timer2_Start()
+{
+	HAL_TIM_Base_Start(&htim2);
+}
+
+int Timer2_GetTimer()
+{
+	uint32_t Tim_val = __HAL_TIM_GetCounter(&htim2);
+	return Tim_val;
+}
 /* USER CODE END 0 */
 
 /**
@@ -557,46 +568,54 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   switch(GPIO_Pin)
   {
   case WR_IP_Pin:
-	  if(Get_state()==Idle_State)
-	  {
-		  //Set state here aswell
-		  //if the state is WR or WL then log data etc etc
-		  //If the state is train exit then call the exit handler function.
-		  //Maybe we should store the previous state too, so that exit handler is only called during one isr. Either this one or the one above
+	  switch(Get_state()){
+	  case Idle_State:
 		  Set_event(WRSide_Train_Detect_Event);
+	  case WRSide_Train_Presence_State:
+		  WR_Interrupt_Service();
+		  break;
+	  case WLSide_Train_Presence_State:
+		  WR_Interrupt_Service();
+		  break;
 	  }
-	  else if (1)//(Counts of WL_Counts==WR_Counts)
+
+	  if (WR_Counts==WL_Counts)//(Counts of WL_Counts==WR_Counts)
 	  {
-		  //
 		  Set_event(Train_Exit_Event);
 	  }
 	  break;
 
   case WL_IP_Pin:
-	  if(Get_state()==Idle_State)
-	  {
+
+	  switch(Get_state()){
+	  case Idle_State:
 		  Set_event(WLSide_Train_Detect_Event);
-		  //Set state here not just the event
+	  case WRSide_Train_Presence_State:
+		  WL_Interrupt_Service();
+		  break;
+	  case WLSide_Train_Presence_State:
+		  WL_Interrupt_Service();
+		  break;
 	  }
-	  else if (1)//(Counts of WL_Counts==WR_Counts)
+
+	  if (WR_Counts==WL_Counts)
 	  {
-		  //
 		  Set_event(Train_Exit_Event);
 	  }
+
 	  break;
 
   case F_IP_Pin:
-	  if(Get_state==WRSide_Train_Presence_State)
+
+	  switch(Get_state())
 	  {
-		  //Laser Trigger
-		  //Camera Trigger
+	  case WRSide_Train_Presence_State:
+		  FCT_Interrupt_Service();
+		  break;
+	  case WLSide_Train_Presence_State:
+		  FCT_Interrupt_Service();
+		  break;
 	  }
-	  else if(Get_state==WLSide_Train_Presence_State)
-	  {
-		  //Laser Trigger
-		  //Camera Trigger
-	  }
-	  //HAL_Delay(100);
 	  break;
   }
 }

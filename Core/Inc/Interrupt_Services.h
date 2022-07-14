@@ -20,12 +20,14 @@ unsigned long int	WR_Counts, // Wheel Right Counts
 
 buff_size			WR_Instant,
 					WL_Instant,
-					TR_Instant,
-					TL_Instant;
+					FCT_Instant;
+
+uint16_t			Lt_Rt_flag,
+					Rt_Lt_flag,
+					Entry_flag;
 
 void Lan_Interrupt_Service(void);
 void WR_Interrupt_Service(void);
-void TR_Interrupt_Service(void);
+void FCT_Interrupt_Service(void);
 void WL_Interrupt_Service(void);
-void TL_Interrupt_Service(void);
 void Manual_delay(void);
