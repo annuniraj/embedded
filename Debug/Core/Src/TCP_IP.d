@@ -35,7 +35,8 @@ Core/Src/TCP_IP.o: ../Core/Src/TCP_IP.c ../Core/Inc/main.h \
  ../Core/Inc/state.h ../Core/Inc/common.h ../Core/Inc/event.h \
  ../Core/Inc/state_Handler.h ../Core/Inc/TCP_IP.h \
  ../Core/Inc/wizchip_conf.h ../Core/Inc/w5500.h ../Core/Inc/socket.h \
- ../Core/Inc/ring.h ../Core/Inc/Interrupt_Services.h
+ ../Core/Inc/ring.h ../Core/Inc/Interrupt_Services.h \
+ ../Core/Inc/Save_Data.h
 
 ../Core/Inc/main.h:
 
@@ -124,3 +125,5 @@ Core/Src/TCP_IP.o: ../Core/Src/TCP_IP.c ../Core/Inc/main.h \
 ../Core/Inc/ring.h:
 
 ../Core/Inc/Interrupt_Services.h:
+
+../Core/Inc/Save_Data.h:

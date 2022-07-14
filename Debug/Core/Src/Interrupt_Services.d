@@ -36,7 +36,8 @@ Core/Src/Interrupt_Services.o: ../Core/Src/Interrupt_Services.c \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h \
  ../Core/Inc/state.h ../Core/Inc/common.h ../Core/Inc/event.h \
- ../Core/Inc/state_Handler.h ../Core/Inc/Interrupt_Services.h
+ ../Core/Inc/state_Handler.h ../Core/Inc/Interrupt_Services.h \
+ ../Core/Inc/Save_Data.h
 
 ../Core/Inc/Interrupt_Services.h:
 
@@ -127,3 +128,5 @@ Core/Src/Interrupt_Services.o: ../Core/Src/Interrupt_Services.c \
 ../Core/Inc/state_Handler.h:
 
 ../Core/Inc/Interrupt_Services.h:
+
+../Core/Inc/Save_Data.h:

@@ -86,6 +86,7 @@ void Log_Data_State_Handler()
 	//reset the event
 	Reset_event();
 	//send the data over TCPIP
+	Send_Data();
 	//set the event to reset event
 	Set_event(Reset_Event);
 }

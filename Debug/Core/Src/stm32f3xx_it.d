@@ -36,7 +36,7 @@ Core/Src/stm32f3xx_it.o: ../Core/Src/stm32f3xx_it.c ../Core/Inc/main.h \
  ../Core/Inc/state_Handler.h ../Core/Inc/TCP_IP.h \
  ../Core/Inc/wizchip_conf.h ../Core/Inc/w5500.h ../Core/Inc/socket.h \
  ../Core/Inc/ring.h ../Core/Inc/Interrupt_Services.h \
- ../Core/Inc/stm32f3xx_it.h
+ ../Core/Inc/Save_Data.h ../Core/Inc/stm32f3xx_it.h
 
 ../Core/Inc/main.h:
 
@@ -125,5 +125,7 @@ Core/Src/stm32f3xx_it.o: ../Core/Src/stm32f3xx_it.c ../Core/Inc/main.h \
 ../Core/Inc/ring.h:
 
 ../Core/Inc/Interrupt_Services.h:
+
+../Core/Inc/Save_Data.h:
 
 ../Core/Inc/stm32f3xx_it.h:
