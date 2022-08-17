@@ -49,11 +49,12 @@ void Init_Ethernet(void)
 
 void Ethernet_Connect(void)
 {
-	socket(0, Sn_MR_TCP, PORT_ADDR, SF_TCP_NODELAY);
-	Refresh_Watchdog();
+	Init_Ethernet();
+
 
 	while(Connect_Reply !=SOCK_OK)
 	{
+		socket(0, Sn_MR_TCP, PORT_ADDR, SF_TCP_NODELAY);
 		Refresh_Watchdog();
 		Connect_Reply = connect(0,server_Add,PORT_ADDR);
 	}

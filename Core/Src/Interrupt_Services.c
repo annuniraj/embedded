@@ -16,39 +16,31 @@ void Manual_delay(void)
 	}
 }
 
-//void Lan_Interrupt_Service(void)
-//{
-//	if(getSn_IR(0) & (1 << 2))   // RECV Interrupt
-//		{
-//		Sock_Rx_Flag = 1;
-//		recv(0,Ethernet_Rx_DataBuff,2048);
-//
-//		//HAL_UART_Transmit(&huart2, (uint8_t*)Ethernet_Rx_DataBuff, strlen((const char*)Ethernet_Rx_DataBuff), 100)
-//		//send(0, Ethernet_Rx_DataBuff,strlen((const char*)Ethernet_Rx_DataBuff));
-//
-//		for(uint16_t i= 0; i < 2048; i++)
-//		{
-//			Ethernet_Rx_DataBuff[i] = '\0';
-//		}
-//
-//		//HAL_UART_Transmit(&huart2, (uint8_t*)"\r\n", 2, 100);
-//		setSn_IR(0, 0x04);
-//		}
-//	else if(getSn_IR(0) & (1 << 1))  //DISCONNECT Interrupt
-//		{
-//		IntStatus = 0;
-//		disconnect(0);
-//		close(0);
-//		Sock_Disconnect_Flag = 1;
-//		//HAL_UART_Transmit(&huart2, (uint8_t*)"Server Disconnected\r\n", 21, 100);
-//		Ethernet_Connect();
-//		setSn_IR(0, 0x02);
-//		}
-//	else
-//	{
-//		setSn_IR(0, 0x1F);
-//	}
-//}
+void Lan_Interrupt_Service(void)
+{
+	if(getSn_IR(0) & (1 << 2))
+	{
+		recv(0,Receive_Buffer,255);
+		if(Receive_Buffer==PING_ACK_CMD)
+		{
+			//Set State Idle State
+		}
+
+		memset(Receive_Buffer,0,sizeof Receive_Buffer);// clear the receiving buffer
+		setSn_IR(0, 0x04);
+	}
+
+	else if(getSn_IR(0) & (1 << 1))
+	{
+		Ethernet_Connect();
+		setSn_IR(0, 0x02);
+	}
+
+	else
+	{
+		setSn_IR(0, 0x1F);/// decimal 31 .. for more info check W5500 datasheet, Page 48
+	}
+}
 
 void WR_Interrupt_Service(void)
 {
@@ -84,7 +76,7 @@ void WR_Interrupt_Service(void)
 
 void FCT_Interrupt_Service(void)
 {
-	send(0, (uint8_t *)"TLin ",strlen("TLin "));
+	send(0, (uint8_t *)"FCT ",strlen("FCT "));
 	FCT_Counts++;
 	if(Lt_Rt_flag==1)
 	{
@@ -98,12 +90,12 @@ void FCT_Interrupt_Service(void)
 
 		//Camera ON
 		//Laser ON
-		HAL_GPIO_WritePin(GPIOB,CA_OP_Pin,GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(GPIOA,CA_OP1_Pin,GPIO_PIN_RESET);
-
-		Manual_delay();
-		HAL_GPIO_WritePin(GPIOB,CA_OP_Pin,GPIO_PIN_SET);
-		HAL_GPIO_WritePin(GPIOA,CA_OP1_Pin,GPIO_PIN_SET);
+//		HAL_GPIO_WritePin(GPIOB,CA_OP_Pin,GPIO_PIN_RESET);
+//		HAL_GPIO_WritePin(GPIOA,CA_OP1_Pin,GPIO_PIN_RESET);
+//
+//		Manual_delay();
+//		HAL_GPIO_WritePin(GPIOB,CA_OP_Pin,GPIO_PIN_SET);
+//		HAL_GPIO_WritePin(GPIOA,CA_OP1_Pin,GPIO_PIN_SET);
 		//send(0, (uint8_t *)"TL2 ",strlen("TL2 "));
 	}
 	//send(0, (uint8_t *)"TLout ",strlen("TLout "));

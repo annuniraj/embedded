@@ -145,6 +145,9 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+
+
   while (1)
   {
     /* USER CODE END WHILE */
@@ -153,6 +156,8 @@ int main(void)
 	  switch(Get_state())
 	  	  {
 	  	  case Initilisation_State:
+	  		  Initilisation_State_Handler();
+
 	  		  if(Get_event()==Reset_Event)
 	  		  {
 	  			  Reset_State_Handler();
@@ -176,6 +181,23 @@ int main(void)
 	  		  {
 	  			  WLSide_Train_Presence_State_Handler();
 	  		  }
+
+	  		  // Check for physical connection.
+	  		  ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP); // gets physical status of the TCPIP
+
+	  		  //if phy connection NOK, set state to initialization state
+	  		  if(Phy_TCP_IP==PHY_LINK_OFF)
+	  		  {
+					//Save the status in the flash memory with date and time stamp+++++++++++++++++++++
+	  			  Set_state(Initilisation_State);
+	  		  }
+
+	  		  // Else If physical connection OK, send ping command to abox,
+	  		  else if(Phy_TCP_IP==PHY_LINK_ON)
+	  		  {
+	  			  send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
+	  		  }
+
 	  		  break;
 
 	  	  case WRSide_Train_Presence_State:
@@ -512,7 +534,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pins : WR_IP_Pin WL_IP_Pin F_IP_Pin */
   GPIO_InitStruct.Pin = WR_IP_Pin|WL_IP_Pin|F_IP_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
@@ -525,7 +547,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : LAN_INT_Pin */
   GPIO_InitStruct.Pin = LAN_INT_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(LAN_INT_GPIO_Port, &GPIO_InitStruct);
 
@@ -605,6 +627,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 	  break;
 
+
   case F_IP_Pin:
 
 	  switch(Get_state())
@@ -616,6 +639,11 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		  FCT_Interrupt_Service();
 		  break;
 	  }
+	  break;
+
+  case LAN_INT_Pin:
+
+	  Lan_Interrupt_Service();
 	  break;
   }
 }

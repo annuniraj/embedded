@@ -4,12 +4,28 @@ void Initilisation_State_Handler()
 {
 	Set_state(Initilisation_State);
 	Reset_event();
-	//Initilise the TCPIP Connection
+	//Initialize the TCPIP Connection
 	Init_Ethernet();
-	//Connect the TCP iP Connection
-	Ethernet_Connect();
+	//Check the physical Connection of TCP IP
+	ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP); // gets physical status of the TCPIP
 
-	Set_event(Reset_Event);
+	if(Phy_TCP_IP==PHY_LINK_OFF)
+	{
+		//Save the status in the flash memory with date and time stamp+++++++++++++++++++++
+		Set_state(Initilisation_State);
+	}
+	else if(Phy_TCP_IP==PHY_LINK_ON)
+	{
+		HAL_Delay(500);
+		HAL_Delay(100);
+		//Connect the TCP iP Connection
+		Refresh_Watchdog();
+		Ethernet_Connect();
+		HAL_Delay(100);
+		send(0, (buff_size *)" Init,",strlen(" Init,"));
+
+		Set_event(Reset_Event);
+	}
 }
 
 void Reset_State_Handler()
@@ -31,6 +47,8 @@ void Reset_State_Handler()
 
 	Timer2_Initilized(); //Timer Initialized
 
+	send(0, (buff_size *)" Reset,",strlen(" Reset,"));
+
 	//set the event to idle
 	Set_event(Idle_Event);
 }
@@ -39,6 +57,9 @@ void Idle_State_Handler()
 {
 	//Set state to idle state
 	Set_state(Idle_State);
+
+
+	send(0, (buff_size *)" Idle,",strlen(" Idle,"));
 	//reset the event
 	Reset_event();
 	//
@@ -50,6 +71,8 @@ void WRSide_Train_Presence_State_Handler()
 	{
 		//set state to WRSide Train Presence state
 		Set_state(WRSide_Train_Presence_State);
+
+		send(0, (buff_size *)" WRSide,",strlen(" WRSide,"));
 		//reset the event
 		Reset_event();
 	}
@@ -62,6 +85,8 @@ void WLSide_Train_Presence_State_Handler()
 	{
 		//set state to WLSide Train Presence state
 		Set_state(WLSide_Train_Presence_State);
+
+		send(0, (buff_size *)" WLSide,",strlen(" WLSide,"));
 		//reset the event
 		Reset_event();
 	}
@@ -72,6 +97,8 @@ void Train_Exit_State_Handler()
 {
 	//Set state to Train Exit state
 	Set_state(Train_Exit_State);
+
+	send(0, (buff_size *)" Exit,",strlen(" Exit,"));
 	//reset the event
 	Reset_event();
 	//shut down the purge and close the shutters
@@ -83,6 +110,8 @@ void Log_Data_State_Handler()
 {
 	//Set state to Log Data state
 	Set_state(Log_Data_State);
+
+	send(0, (buff_size *)" Log,",strlen(" Log,"));
 	//reset the event
 	Reset_event();
 	//send the data over TCPIP

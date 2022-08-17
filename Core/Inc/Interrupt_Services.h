@@ -11,6 +11,7 @@
 #endif /* INC_INTERRUPT_SERVICES_H_ */
 
 #include <stdio.h>
+#include <string.h>
 #include "TCP_IP.h"
 #include "ring.h"
 
@@ -25,6 +26,7 @@ buff_size			WR_Instant,
 uint16_t			Lt_Rt_flag,
 					Rt_Lt_flag,
 					Entry_flag;
+
 
 void Lan_Interrupt_Service(void);
 void WR_Interrupt_Service(void);
