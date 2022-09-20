@@ -195,6 +195,8 @@ int main(void)
 	  		  // Else If physical connection OK, send ping command to abox,
 	  		  else if(Phy_TCP_IP==PHY_LINK_ON)
 	  		  {
+	  			  HAL_Delay(500);
+	  			  HAL_Delay(500);
 	  			  send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
 	  		  }
 
