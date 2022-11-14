@@ -5,13 +5,20 @@
 
 #endif /* INC_TCP_IP_H_ */
 
-#define PORT_ADDR		9099
-#define PING_CMD		"PING"
-#define PING_ACK_CMD	"ACK_PING"
-#define GRAB_START_CMD	"GRABSTART"
-#define GRAB_STOP_CMD	"GRABSTOP"
-#define LOG_START_CMD	"LOGSTART"
-#define LOG_STOP_CMD	"LOGSTOP"
+#define PORT_ADDR			9099
+#define PING_CMD			"PING"
+#define PING_ACK_CMD		"ACK_PING"
+
+#define INIT_CMD			"INIT#1"
+#define GRAB_START_CMD		"GRABSTART#1"
+#define GRAB_STOP_CMD		"GRABSTOP#1"
+#define LOG_START_CMD		"LOGSTART#1"
+#define LOG_WR_CMD			"LOGNEWFILE#WR"
+#define LOG_WL_CMD			"LOGNEWFILE#WL"
+#define LOG_FCT_CMD			"LOGNEWFILE#FCT"
+#define LOG_WRITE_CMD		"LOGWRITE#"
+#define LOG_END_WRITE_CMD	"LOGENDFILE#1"
+#define LOG_STOP_CMD		"LOGSTOP#1"
 
 #include "wizchip_conf.h"
 #include "socket.h"

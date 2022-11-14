@@ -22,7 +22,7 @@ void Initilisation_State_Handler()
 		Refresh_Watchdog();
 		Ethernet_Connect();
 		HAL_Delay(100);
-		send(0, (buff_size *)" Init,",strlen(" Init,"));
+		send(0, (uint8_t *)INIT_CMD,strlen(INIT_CMD));
 
 		Set_event(Reset_Event);
 	}
