@@ -1,4 +1,0 @@
-Save_Data.c:3:6:Send_WR_Samples	24	static
-Save_Data.c:16:6:Send_FCT_Samples	24	static
-Save_Data.c:30:6:Send_WL_Samples	24	static
-Save_Data.c:43:6:Send_Data	16	static

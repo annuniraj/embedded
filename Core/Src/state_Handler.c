@@ -22,7 +22,7 @@ void Initilisation_State_Handler()
 		Refresh_Watchdog();
 		Ethernet_Connect();
 		HAL_Delay(100);
-		send(0, (uint8_t *)INIT_CMD,strlen(INIT_CMD));
+		//send(0, (uint8_t *)SYS_INIT_CMD,strlen(SYS_INIT_CMD));
 
 		Set_event(Reset_Event);
 	}
@@ -47,7 +47,7 @@ void Reset_State_Handler()
 
 	Timer2_Initilized(); //Timer Initialized
 
-	send(0, (buff_size *)" Reset,",strlen(" Reset,"));
+	//send(0, (buff_size *)" Reset,",strlen(" Reset,"));
 
 	//set the event to idle
 	Set_event(Idle_Event);
@@ -59,7 +59,7 @@ void Idle_State_Handler()
 	Set_state(Idle_State);
 
 
-	send(0, (buff_size *)" Idle,",strlen(" Idle,"));
+	//send(0, (buff_size *)" Idle,",strlen(" Idle,"));
 	//reset the event
 	Reset_event();
 	//
@@ -72,7 +72,7 @@ void WRSide_Train_Presence_State_Handler()
 		//set state to WRSide Train Presence state
 		Set_state(WRSide_Train_Presence_State);
 
-		send(0, (buff_size *)" WRSide,",strlen(" WRSide,"));
+		//send(0, (buff_size *)" WRSide,",strlen(" WRSide,"));
 		//reset the event
 		Reset_event();
 	}
@@ -86,7 +86,7 @@ void WLSide_Train_Presence_State_Handler()
 		//set state to WLSide Train Presence state
 		Set_state(WLSide_Train_Presence_State);
 
-		send(0, (buff_size *)" WLSide,",strlen(" WLSide,"));
+		//send(0, (buff_size *)" WLSide,",strlen(" WLSide,"));
 		//reset the event
 		Reset_event();
 	}
@@ -98,7 +98,7 @@ void Train_Exit_State_Handler()
 	//Set state to Train Exit state
 	Set_state(Train_Exit_State);
 
-	send(0, (buff_size *)" Exit,",strlen(" Exit,"));
+	//send(0, (buff_size *)" Exit,",strlen(" Exit,"));
 	//reset the event
 	Reset_event();
 	//shut down the purge and close the shutters
@@ -111,7 +111,7 @@ void Log_Data_State_Handler()
 	//Set state to Log Data state
 	Set_state(Log_Data_State);
 
-	send(0, (buff_size *)" Log,",strlen(" Log,"));
+	//send(0, (buff_size *)" Log,",strlen(" Log,"));
 	//reset the event
 	Reset_event();
 	//send the data over TCPIP

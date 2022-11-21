@@ -197,7 +197,7 @@ int main(void)
 	  		  {
 	  			  HAL_Delay(500);
 	  			  HAL_Delay(500);
-	  			  send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
+	  			  //send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
 	  		  }
 
 	  		  break;

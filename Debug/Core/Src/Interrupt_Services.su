@@ -1,5 +1,5 @@
 Interrupt_Services.c:11:6:Manual_delay	16	static
 Interrupt_Services.c:19:6:Lan_Interrupt_Service	8	static
 Interrupt_Services.c:45:6:WR_Interrupt_Service	8	static
-Interrupt_Services.c:77:6:FCT_Interrupt_Service	8	static
-Interrupt_Services.c:104:6:WL_Interrupt_Service	8	static
+Interrupt_Services.c:78:6:FCT_Interrupt_Service	8	static
+Interrupt_Services.c:105:6:WL_Interrupt_Service	8	static

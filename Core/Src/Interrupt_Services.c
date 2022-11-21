@@ -21,10 +21,10 @@ void Lan_Interrupt_Service(void)
 	if(getSn_IR(0) & (1 << 2))
 	{
 		recv(0,Receive_Buffer,255);
-		if(Receive_Buffer==PING_ACK_CMD)
-		{
-			//Set State Idle State
-		}
+//		if(Receive_Buffer==PING_ACK_CMD)
+//		{
+//			//Set State Idle State
+//		}
 
 		memset(Receive_Buffer,0,sizeof Receive_Buffer);// clear the receiving buffer
 		setSn_IR(0, 0x04);
@@ -44,13 +44,14 @@ void Lan_Interrupt_Service(void)
 
 void WR_Interrupt_Service(void)
 {
-	send(0, (uint8_t *)"WR ",strlen("WR "));
+	//send(0, (uint8_t *)"WR ",strlen("WR "));
 	WR_Counts++;
 	if(Lt_Rt_flag==0)
 	{
 		switch(WR_Counts)
 		{
 		case(1):
+				send(0, (uint8_t *)INIT_CMD,strlen(INIT_CMD));
 		        Timer2_Start();
 				WR_Instant=Timer2_GetTimer();
 				RingWriteElement(&WR_Ring,&WR_Instant);
@@ -59,8 +60,8 @@ void WR_Interrupt_Service(void)
 				send(0, (uint8_t *)GRAB_START_CMD,strlen(GRAB_START_CMD));
 				Entry_flag=1;
 				Rt_Lt_flag=1;
-				//WR_Instant=__HAL_TIM_GetCounter(&htim2);
-				//RingWriteElement(&WR_Ring,&WR_Instant);
+				WR_Instant=Timer2_GetTimer();
+				RingWriteElement(&WR_Ring,&WR_Instant);
 				break;
 		}
 
@@ -76,7 +77,7 @@ void WR_Interrupt_Service(void)
 
 void FCT_Interrupt_Service(void)
 {
-	send(0, (uint8_t *)"FCT ",strlen("FCT "));
+	//send(0, (uint8_t *)"FCT ",strlen("FCT "));
 	FCT_Counts++;
 	if(Lt_Rt_flag==1)
 	{
@@ -110,6 +111,7 @@ void WL_Interrupt_Service(void)
 		switch(WL_Counts)
 		{
 		case(1):
+				send(0, (uint8_t *)INIT_CMD,strlen(INIT_CMD));
 				Timer2_Start();
 				WL_Instant=Timer2_GetTimer();
 				RingWriteElement(&WL_Ring,&WL_Instant);
@@ -119,8 +121,8 @@ void WL_Interrupt_Service(void)
 				send(0, (uint8_t *)GRAB_START_CMD,strlen(GRAB_START_CMD));
 				Entry_flag=1;
 				Lt_Rt_flag=1;
-				//WL_Instant=__HAL_TIM_GetCounter(&htim2);
-				//RingWriteElement(&WL_Ring,&WL_Instant);
+				WL_Instant=Timer2_GetTimer();
+				RingWriteElement(&WL_Ring,&WL_Instant);
 				break;
 		}
 
