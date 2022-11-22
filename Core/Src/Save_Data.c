@@ -7,9 +7,7 @@ void Send_WR_Samples()
 	{
 		RingReadElement(&WR_Ring,&WR_Ring_Unit);
 		itoa(WR_Ring_Unit,WR_Ring_Bulletin,10);
-		send(0, (uint8_t *)LOG_WRITE_CMD,strlen(LOG_WRITE_CMD));
-		send(0, (buff_size *)WR_Ring_Bulletin,strlen(WR_Ring_Bulletin));
-		//send(0, (buff_size *)",",strlen(","));
+		send(0, (buff_size *)strcat(LOG_WRITE_CMD,WR_Ring_Bulletin),strlen(WR_Ring_Bulletin));
 		//HAL_Delay(100);
 	}
 }
@@ -21,10 +19,8 @@ void Send_FCT_Samples()
 	{
 		RingReadElement(&FCT_Ring,&FCT_Ring_Unit);
 		itoa(FCT_Ring_Unit,FCT_Ring_Bulletin,10);
-		send(0, (uint8_t *)LOG_WRITE_CMD,strlen(LOG_WRITE_CMD));
-		send(0, (buff_size *)FCT_Ring_Bulletin,strlen(FCT_Ring_Bulletin));
-		//send(0, (buff_size *)strcat(LOG_WRITE_CMD,FCT_Ring_Bulletin),strlen(FCT_Ring_Bulletin));
-		//send(0, (buff_size *)",",strlen(","));
+		//send(0, (buff_size *)FCT_Ring_Bulletin,strlen(FCT_Ring_Bulletin));
+		send(0, (buff_size *)strcat(LOG_WRITE_CMD,FCT_Ring_Bulletin),strlen(FCT_Ring_Bulletin));
 		HAL_Delay(100);
 	}
 }
@@ -37,10 +33,7 @@ void Send_WL_Samples()
 	{
 		RingReadElement(&WL_Ring,&WL_Ring_Unit);
 		itoa(WL_Ring_Unit,WL_Ring_Bulletin,10);
-		send(0, (uint8_t *)LOG_WRITE_CMD,strlen(LOG_WRITE_CMD));
-		send(0, (buff_size *)WL_Ring_Bulletin,strlen(WL_Ring_Bulletin));
-		//send(0, (buff_size *)strcat(LOG_WRITE_CMD,WL_Ring_Bulletin),strlen(WL_Ring_Bulletin));
-		//send(0, (buff_size *)",",strlen(","));
+		send(0, (buff_size *)strcat(LOG_WRITE_CMD,WL_Ring_Bulletin),strlen(WL_Ring_Bulletin));
 		HAL_Delay(100);
 	}
 }
