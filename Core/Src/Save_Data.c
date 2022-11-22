@@ -7,8 +7,16 @@ void Send_WR_Samples()
 	{
 		RingReadElement(&WR_Ring,&WR_Ring_Unit);
 		itoa(WR_Ring_Unit,WR_Ring_Bulletin,10);
-		send(0, (buff_size *)strcat(LOG_WRITE_CMD,WR_Ring_Bulletin),strlen(WR_Ring_Bulletin));
-		//HAL_Delay(100);
+		unsigned char* WR_Packet;
+		WR_Packet = malloc(strlen(LOG_WRITE_CMD)+strlen(WR_Ring_Bulletin));
+		strcpy(WR_Packet,LOG_WRITE_CMD);
+		strcat(WR_Packet,WR_Ring_Bulletin);
+
+		send(0, (buff_size *)WR_Packet,strlen(WR_Packet));
+		free(WR_Packet);
+		WR_Packet=NULL;
+
+		HAL_Delay(100);
 	}
 }
 
@@ -19,8 +27,14 @@ void Send_FCT_Samples()
 	{
 		RingReadElement(&FCT_Ring,&FCT_Ring_Unit);
 		itoa(FCT_Ring_Unit,FCT_Ring_Bulletin,10);
-		//send(0, (buff_size *)FCT_Ring_Bulletin,strlen(FCT_Ring_Bulletin));
-		send(0, (buff_size *)strcat(LOG_WRITE_CMD,FCT_Ring_Bulletin),strlen(FCT_Ring_Bulletin));
+		unsigned char* FCT_Packet;
+		FCT_Packet = malloc(strlen(LOG_WRITE_CMD)+strlen(FCT_Ring_Bulletin));
+		strcpy(FCT_Packet,LOG_WRITE_CMD);
+		strcat(FCT_Packet,FCT_Ring_Bulletin);
+
+		send(0, (buff_size *)FCT_Packet,strlen(FCT_Packet));
+		free(FCT_Packet);
+		FCT_Packet=NULL;
 		HAL_Delay(100);
 	}
 }
@@ -33,7 +47,14 @@ void Send_WL_Samples()
 	{
 		RingReadElement(&WL_Ring,&WL_Ring_Unit);
 		itoa(WL_Ring_Unit,WL_Ring_Bulletin,10);
-		send(0, (buff_size *)strcat(LOG_WRITE_CMD,WL_Ring_Bulletin),strlen(WL_Ring_Bulletin));
+		unsigned char* WL_Packet;
+		WL_Packet = malloc(strlen(LOG_WRITE_CMD)+strlen(WL_Ring_Bulletin));
+		strcpy(WL_Packet,LOG_WRITE_CMD);
+		strcat(WL_Packet,WL_Ring_Bulletin);
+
+		send(0, (buff_size *)WL_Packet,strlen(WL_Packet));
+		free(WL_Packet);
+		WL_Packet=NULL;
 		HAL_Delay(100);
 	}
 }
@@ -69,16 +90,16 @@ void Send_Data()
 	send(0, (uint8_t *)LOG_END_WRITE_CMD,strlen(LOG_END_WRITE_CMD));
 	HAL_Delay(500);
 
-//	itoa(WR_Counts,WR_Count_Bulletin,10);
-//	send(0, (buff_size *)strcat(WR_Count_Bulletin,","),strlen(WR_Count_Bulletin));
-//
-//	HAL_Delay(500);
-//	itoa(FCT_Counts,FCT_Count_Bulletin,10);
-//	send(0, (buff_size *)strcat(FCT_Count_Bulletin,","),strlen(FCT_Count_Bulletin));
-//
-//	HAL_Delay(500);
-//	itoa(WL_Counts,WL_Count_Bulletin,10);
-//	send(0, (buff_size *)strcat(WL_Count_Bulletin,","),strlen(WL_Count_Bulletin));
+	itoa(WR_Counts,WR_Count_Bulletin,10);
+	send(0, (buff_size *)strcat(WR_Count_Bulletin,","),strlen(WR_Count_Bulletin));
+
+	HAL_Delay(500);
+	itoa(FCT_Counts,FCT_Count_Bulletin,10);
+	send(0, (buff_size *)strcat(FCT_Count_Bulletin,","),strlen(FCT_Count_Bulletin));
+
+	HAL_Delay(500);
+	itoa(WL_Counts,WL_Count_Bulletin,10);
+	send(0, (buff_size *)strcat(WL_Count_Bulletin,","),strlen(WL_Count_Bulletin));
 
 	HAL_Delay(500);
 	send(0, (uint8_t *)LOG_STOP_CMD,strlen(LOG_STOP_CMD));

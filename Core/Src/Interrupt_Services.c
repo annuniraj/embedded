@@ -44,7 +44,6 @@ void Lan_Interrupt_Service(void)
 
 void WR_Interrupt_Service(void)
 {
-	//send(0, (uint8_t *)"WR ",strlen("WR "));
 	WR_Counts++;
 	if(Lt_Rt_flag==0)
 	{
@@ -77,7 +76,6 @@ void WR_Interrupt_Service(void)
 
 void FCT_Interrupt_Service(void)
 {
-	//send(0, (uint8_t *)"FCT ",strlen("FCT "));
 	FCT_Counts++;
 	if(Lt_Rt_flag==1)
 	{
@@ -91,20 +89,18 @@ void FCT_Interrupt_Service(void)
 
 		//Camera ON
 		//Laser ON
-//		HAL_GPIO_WritePin(GPIOB,CA_OP_Pin,GPIO_PIN_RESET);
-//		HAL_GPIO_WritePin(GPIOA,CA_OP1_Pin,GPIO_PIN_RESET);
-//
-//		Manual_delay();
-//		HAL_GPIO_WritePin(GPIOB,CA_OP_Pin,GPIO_PIN_SET);
-//		HAL_GPIO_WritePin(GPIOA,CA_OP1_Pin,GPIO_PIN_SET);
-		//send(0, (uint8_t *)"TL2 ",strlen("TL2 "));
+		HAL_GPIO_WritePin(GPIOB,CA_OP_Pin,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA,CA_OP1_Pin,GPIO_PIN_RESET);
+
+		Manual_delay();
+		HAL_GPIO_WritePin(GPIOB,CA_OP_Pin,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA,CA_OP1_Pin,GPIO_PIN_SET);
 	}
-	//send(0, (uint8_t *)"TLout ",strlen("TLout "));
+
 }
 
 void WL_Interrupt_Service(void)
 {
-	//send(0, (uint8_t *)"WL ",strlen("WL "));
 	WL_Counts++;
 	if(Rt_Lt_flag==0)
 	{
