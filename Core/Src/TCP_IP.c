@@ -7,9 +7,9 @@
 #include "main.h"
 #include "TCP_IP.h"
 
-uint8_t  server_Add[4] = {192,168,1,111};
+uint8_t  server_Add[4] = {192,168,1,111}; // Change in main.c line 203
 
-uint8_t  Connect_Reply;
+//uint8_t  Connect_Reply;
 uint8_t  Sock_Rx_Flag;
 uint8_t  Ethernet_Rx_DataBuff[2048];
 uint8_t  IntStatus;
@@ -62,9 +62,6 @@ void Ethernet_Connect(void)
 	if(Connect_Reply == 1)
 	{
 		Connect_Reply = 0;
-		//sprintf((char*)msg, IP_MSG, server_IP[0], server_IP[1], server_IP[2], server_IP[3]);
-		//HAL_UART_Transmit(&huart2, (uint8_t*)"Connection Established with Server ", 35, 100);
-		//HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen((const char*)msg), 100);
 	}
 	HAL_Delay(500);
 	Refresh_Watchdog();

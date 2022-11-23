@@ -27,6 +27,8 @@
 
 uint8_t Phy_TCP_IP;
 uint8_t Receive_Buffer[255];
+uint8_t Connect_Reply;
+
 
 void Init_Ethernet(void);
 void cs_sel(void);

@@ -195,9 +195,24 @@ int main(void)
 	  		  // Else If physical connection OK, send ping command to abox,
 	  		  else if(Phy_TCP_IP==PHY_LINK_ON)
 	  		  {
-	  			  HAL_Delay(500);
-	  			  HAL_Delay(500);
+	  			  HAL_Delay(100);
 	  			  //send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
+	  		  }
+
+	  		  uint8_t  server_Address[4] = {192,168,1,111};
+	  		  Refresh_Watchdog();
+	  		  connect(0,server_Address,PORT_ADDR);
+
+
+	  		  uint8_t remotePort;
+	  		  uint8_t remote;
+	  		  remote = getsockopt(0,SO_STATUS, &remotePort);
+//	  		  HAL_Delay(500);
+	  		  //memset(&remotePort,0,sizeof(remotePort));
+	  		  //remotePort=0;
+	  		  if(remotePort==28)
+	  		  {
+	  			  Set_state(Initilisation_State);
 	  		  }
 
 	  		  break;
