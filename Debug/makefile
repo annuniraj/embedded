@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (9-2020-q2-update)
+# Toolchain: GNU Tools for STM32 (10.3-2021.10)
 ################################################################################
 
 -include ../makefile.init
@@ -43,14 +43,14 @@ BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ART
 EXECUTABLES += \
 Basic_State_Machine_Embedded.elf \
 
+MAP_FILES += \
+Basic_State_Machine_Embedded.map \
+
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
 Basic_State_Machine_Embedded.list \
-
-OBJCOPY_BIN += \
-Basic_State_Machine_Embedded.bin \
 
 
 # All Target
@@ -60,8 +60,8 @@ all: main-build
 main-build: Basic_State_Machine_Embedded.elf secondary-outputs
 
 # Tool invocations
-Basic_State_Machine_Embedded.elf: $(OBJS) $(USER_OBJS) C:\Users\user\STM32CubeIDE\workspace_1.8.0\Basic_State_Machine_Embedded\Basic_State_Machine_Embedded\STM32F301C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Basic_State_Machine_Embedded.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\user\STM32CubeIDE\workspace_1.8.0\Basic_State_Machine_Embedded\Basic_State_Machine_Embedded\STM32F301C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Basic_State_Machine_Embedded.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Basic_State_Machine_Embedded.elf Basic_State_Machine_Embedded.map: $(OBJS) $(USER_OBJS) C:\Users\Anil\STM32CubeIDE\workspace_1.8.0\Basic_State_Machine_Embedded\Basic_State_Machine_Embedded\STM32F301C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Basic_State_Machine_Embedded.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Anil\STM32CubeIDE\workspace_1.8.0\Basic_State_Machine_Embedded\Basic_State_Machine_Embedded\STM32F301C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Basic_State_Machine_Embedded.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -75,17 +75,12 @@ Basic_State_Machine_Embedded.list: $(EXECUTABLES) makefile objects.list $(OPTION
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Basic_State_Machine_Embedded.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "Basic_State_Machine_Embedded.bin"
-	@echo 'Finished building: $@'
-	@echo ' '
-
 # Other Targets
 clean:
-	-$(RM) Basic_State_Machine_Embedded.bin Basic_State_Machine_Embedded.elf Basic_State_Machine_Embedded.list default.size.stdout
+	-$(RM) Basic_State_Machine_Embedded.elf Basic_State_Machine_Embedded.list Basic_State_Machine_Embedded.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'

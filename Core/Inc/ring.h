@@ -8,9 +8,9 @@
 
 typedef uint32_t 	buff_size;
 
-buff_size			WR_Samples[BUFFERSIZE],
+extern buff_size			WR_Samples[BUFFERSIZE],
 					FCT_Samples[BUFFERSIZE],
-					WL_Samples[BUFFERSIZE];
+					WL_Samples[BUFFERSIZE]; /// defined in state_Handler.c
 
 typedef enum{
 	NO_PTR = -3, /**< Returned if null pointer was given as parameter. */
@@ -31,9 +31,9 @@ typedef struct{
 	void* buffer; /**< Pointer to array holding ring buffer. */
 } RingBuffer_t;
 
-RingBuffer_t		WR_Ring,
+extern RingBuffer_t		WR_Ring,
 					FCT_Ring,
-					WL_Ring;
+					WL_Ring;//defined in state_Handler.c
 /**
  * Function that returns size of whole ring buffer.
  *

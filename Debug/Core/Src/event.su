@@ -1,3 +1,3 @@
-event.c:12:10:Get_event	4	static
-event.c:18:6:Set_event	16	static
-event.c:25:6:Reset_event	4	static
+../Core/Src/event.c:12:10:Get_event	4	static
+../Core/Src/event.c:18:6:Set_event	16	static
+../Core/Src/event.c:25:6:Reset_event	4	static

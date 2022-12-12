@@ -1,2 +1,2 @@
-state.c:13:10:Get_state	4	static
-state.c:18:6:Set_state	16	static
+../Core/Src/state.c:13:10:Get_state	4	static
+../Core/Src/state.c:18:6:Set_state	16	static

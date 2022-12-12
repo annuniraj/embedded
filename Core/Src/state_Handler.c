@@ -1,5 +1,17 @@
 #include "state_Handler.h"
 
+ buff_size			WR_Samples[BUFFERSIZE],
+					FCT_Samples[BUFFERSIZE],
+					WL_Samples[BUFFERSIZE];
+
+ RingBuffer_t		WR_Ring,
+ 					FCT_Ring,
+ 					WL_Ring;
+
+ extern unsigned long int	WR_Counts,
+ 					FCT_Counts,
+ 					WL_Counts;
+
 void Initilisation_State_Handler()
 {
 	Set_state(Initilisation_State);

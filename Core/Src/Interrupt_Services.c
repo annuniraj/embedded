@@ -8,6 +8,24 @@
 #include "Interrupt_Services.h"
 #include "main.h"
 
+ extern RingBuffer_t		WR_Ring,
+ 					FCT_Ring,
+ 					WL_Ring;
+
+ unsigned long int	WR_Counts,
+ 					FCT_Counts,
+ 					WL_Counts;
+
+ buff_size			WR_Instant,
+ 					WL_Instant,
+ 					FCT_Instant;
+
+ uint16_t			Lt_Rt_flag,
+ 					Rt_Lt_flag,
+ 					Entry_flag;
+
+ uint8_t Receive_Buffer[255];
+
 void Manual_delay(void)
 {
 	for(int i=0;i<=120;i++)

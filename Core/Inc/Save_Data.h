@@ -10,15 +10,15 @@
 
 
 
-uint8_t WR_Roller,
+extern uint8_t WR_Roller,
 		WL_Roller,
 		FCT_Roller;
 
-buff_size	WR_Ring_Unit,
+extern buff_size	WR_Ring_Unit,
 			WL_Ring_Unit,
 			FCT_Ring_Unit;
 
-unsigned char*	WR_Ring_Bulletin[10],
+extern unsigned char*	WR_Ring_Bulletin[10],
 				WL_Ring_Bulletin[10],
 				FCT_Ring_Bulletin[10],
 				WR_Count_Bulletin[10],

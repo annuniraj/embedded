@@ -62,7 +62,10 @@ static void MX_SPI3_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
-
+extern unsigned long int	WR_Counts,
+							FCT_Counts,
+							WL_Counts;
+extern uint8_t Phy_TCP_IP;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/

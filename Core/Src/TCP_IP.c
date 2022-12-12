@@ -7,6 +7,8 @@
 #include "main.h"
 #include "TCP_IP.h"
 
+uint8_t Connect_Reply;
+uint8_t Phy_TCP_IP;
 uint8_t  server_Add[4] = {192,168,1,111}; // Change in main.c line 203
 
 //uint8_t  Connect_Reply;

@@ -15,15 +15,15 @@
 #include "TCP_IP.h"
 #include "ring.h"
 
-unsigned long int	WR_Counts, // Wheel Right Counts
+extern unsigned long int	WR_Counts, // Wheel Right Counts
 					FCT_Counts,// Fraucher Central trigger Counts
 					WL_Counts; // Wheel Left Counts
 
-buff_size			WR_Instant,
+extern buff_size			WR_Instant,
 					WL_Instant,
 					FCT_Instant;
 
-uint16_t			Lt_Rt_flag,
+extern uint16_t			Lt_Rt_flag,
 					Rt_Lt_flag,
 					Entry_flag;
 

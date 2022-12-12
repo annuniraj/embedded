@@ -1,5 +1,27 @@
 #include "Save_Data.h"
 
+ extern RingBuffer_t		WR_Ring,
+ 					FCT_Ring,
+ 					WL_Ring;
+
+ extern unsigned long int	WR_Counts,
+ 					FCT_Counts,
+ 					WL_Counts;
+
+ unsigned char*	WR_Ring_Bulletin[10],
+ 				WL_Ring_Bulletin[10],
+ 				FCT_Ring_Bulletin[10],
+ 				WR_Count_Bulletin[10],
+ 				WL_Count_Bulletin[10],
+ 				FCT_Count_Bulletin[10];
+ uint8_t WR_Roller,
+ 		WL_Roller,
+ 		FCT_Roller;
+
+ buff_size	WR_Ring_Unit,
+ 			WL_Ring_Unit,
+ 			FCT_Ring_Unit;
+
 void Send_WR_Samples()
 {
 	WR_Roller = (BUFFERSIZE-1)-(WR_Ring.place + 1);
