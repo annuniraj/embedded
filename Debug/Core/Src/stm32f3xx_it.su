@@ -10,3 +10,4 @@
 ../Core/Src/stm32f3xx_it.c:203:6:EXTI0_IRQHandler	8	static
 ../Core/Src/stm32f3xx_it.c:217:6:EXTI1_IRQHandler	8	static
 ../Core/Src/stm32f3xx_it.c:231:6:EXTI9_5_IRQHandler	8	static
+../Core/Src/stm32f3xx_it.c:245:6:TIM6_DAC_IRQHandler	8	static
