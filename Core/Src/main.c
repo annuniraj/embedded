@@ -94,11 +94,13 @@ void Timer2_Stop()
 void Timer2_DeInitilized()
 {
 	HAL_TIM_Base_DeInit(&htim2);
+	HAL_TIM_Base_DeInit(&htim6);
 }
 
 void Timer2_Initilized()
 {
 	HAL_TIM_Base_Init(&htim2);
+	HAL_TIM_Base_Init(&htim6);
 }
 
 void Timer2_Start()

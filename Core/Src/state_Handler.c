@@ -54,13 +54,14 @@ void Reset_State_Handler()
 	FCT_Counts=0;
 	//Reset the 32 bit timer 2
 	Timer2_Stop(); //Timer Stopped
+	Timer6_Stop();
 
 	Timer2_DeInitilized();//Timer DeInitilized
 
 	Timer2_Initilized(); //Timer Initialized
-
-	//send(0, (buff_size *)" Reset,",strlen(" Reset,"));
-
+	Entry_flag=0;
+	Lt_Rt_flag=0;
+	Rt_Lt_flag=0;
 	//set the event to idle
 	Set_event(Idle_Event);
 }

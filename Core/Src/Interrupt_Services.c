@@ -77,11 +77,15 @@ void WR_Interrupt_Service(void)
 				send(0, (uint8_t *)GRAB_START_CMD,strlen(GRAB_START_CMD));
 				Entry_flag=1;
 				Rt_Lt_flag=1;
-				WR_Instant=Timer2_GetTimer();
-				RingWriteElement(&WR_Ring,&WR_Instant);
 				Timer6_Start();
 				break;
 		}
+	}
+
+	if(Entry_flag==1)
+	{
+		WR_Instant=Timer2_GetTimer();
+		RingWriteElement(&WR_Ring,&WR_Instant);
 	}
 
 	if(count<=TIMEOOUTPERIOD  || WR_Counts>=2 )
@@ -89,12 +93,6 @@ void WR_Interrupt_Service(void)
 		Timer6_Stop();
 		count=0;
 		Timer6_Start();
-	}
-
-	if(Entry_flag==1)
-	{
-		WR_Instant=Timer2_GetTimer();
-		RingWriteElement(&WR_Ring,&WR_Instant);
 	}
 }
 
@@ -149,8 +147,6 @@ void WL_Interrupt_Service(void)
 				send(0, (uint8_t *)GRAB_START_CMD,strlen(GRAB_START_CMD));
 				Entry_flag=1;
 				Lt_Rt_flag=1;
-				WL_Instant=Timer2_GetTimer();
-				RingWriteElement(&WL_Ring,&WL_Instant);
 				break;
 		}
 	}
