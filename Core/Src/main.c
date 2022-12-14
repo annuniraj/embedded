@@ -68,6 +68,8 @@ extern unsigned long int	WR_Counts,
 							FCT_Counts,
 							WL_Counts;
 extern uint8_t Phy_TCP_IP;
+
+uint32_t count;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -102,6 +104,16 @@ void Timer2_Initilized()
 void Timer2_Start()
 {
 	HAL_TIM_Base_Start(&htim2);
+}
+
+void Timer6_Start()
+{
+	HAL_TIM_Base_Start_IT(&htim6);
+}
+
+void Timer6_Stop()
+{
+	HAL_TIM_Base_Stop_IT(&htim6);
 }
 
 int Timer2_GetTimer()
@@ -228,12 +240,22 @@ int main(void)
 	  		  {
 	  			  Train_Exit_State_Handler();
 	  		  }
+
+	  		  if (count>TIMEOOUTPERIOD)
+	  		  {
+	  			  Set_event(Train_Exit_Event);
+	  		  }
 	  		  break;
 
 	  	  case WLSide_Train_Presence_State:
 	  		  if(Get_event()==Train_Exit_Event)
 	  		  {
 	  			  Train_Exit_State_Handler();
+	  		  }
+
+	  		  if (count>TIMEOOUTPERIOD)
+	  		  {
+	  			  Set_event(Train_Exit_Event);
 	  		  }
 	  		  break;
 

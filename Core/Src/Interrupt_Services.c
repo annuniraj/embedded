@@ -79,7 +79,15 @@ void WR_Interrupt_Service(void)
 				Rt_Lt_flag=1;
 				WR_Instant=Timer2_GetTimer();
 				RingWriteElement(&WR_Ring,&WR_Instant);
+				Timer6_Start();
 				break;
+		}
+
+		if(count<=TIMEOOUTPERIOD  || WR_Counts>=2 )
+		{
+			Timer6_Stop();
+			count=0;
+			Timer6_Start();
 		}
 
 	}
@@ -115,6 +123,13 @@ void FCT_Interrupt_Service(void)
 		HAL_GPIO_WritePin(GPIOA,CA_OP1_Pin,GPIO_PIN_SET);
 	}
 
+	if(count<=TIMEOOUTPERIOD  || FCT_Counts>=2 )
+	{
+		Timer6_Stop();
+		count=0;
+		Timer6_Start();
+	}
+
 }
 
 void WL_Interrupt_Service(void)
@@ -138,6 +153,13 @@ void WL_Interrupt_Service(void)
 				WL_Instant=Timer2_GetTimer();
 				RingWriteElement(&WL_Ring,&WL_Instant);
 				break;
+		}
+
+		if(count<=TIMEOOUTPERIOD  || WL_Counts>=2 )
+		{
+			Timer6_Stop();
+			count=0;
+			Timer6_Start();
 		}
 
 	}

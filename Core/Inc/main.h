@@ -18,6 +18,7 @@
   ******************************************************************************
   */
 #pragma once
+#define TIMEOOUTPERIOD 300
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -42,6 +43,7 @@ extern "C" {
 /* USER CODE BEGIN ET */
 void spi_wb(uint8_t b);
 uint8_t spi_rb(void);
+extern uint32_t count;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -91,6 +93,8 @@ void Timer2_Stop();
 void Timer2_Start();
 void Timer2_DeInitilized();
 int Timer2_GetTimer();
+void Timer6_Stop();
+void Timer6_Start();
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

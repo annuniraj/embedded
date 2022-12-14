@@ -42,6 +42,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
+extern uint32_t count;
 
 /* USER CODE END PV */
 
@@ -245,6 +246,11 @@ void EXTI9_5_IRQHandler(void)
 void TIM6_DAC_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
+	if ((TIM6->SR & 0x0001))
+	{
+		TIM6->SR &= ~(1 << 0);		           //Reset the update interrupt flag
+		count++;
+	}
 
   /* USER CODE END TIM6_DAC_IRQn 0 */
   HAL_TIM_IRQHandler(&htim6);
