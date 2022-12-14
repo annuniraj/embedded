@@ -82,14 +82,13 @@ void WR_Interrupt_Service(void)
 				Timer6_Start();
 				break;
 		}
+	}
 
-		if(count<=TIMEOOUTPERIOD  || WR_Counts>=2 )
-		{
-			Timer6_Stop();
-			count=0;
-			Timer6_Start();
-		}
-
+	if(count<=TIMEOOUTPERIOD  || WR_Counts>=2 )
+	{
+		Timer6_Stop();
+		count=0;
+		Timer6_Start();
 	}
 
 	if(Entry_flag==1)
@@ -154,19 +153,18 @@ void WL_Interrupt_Service(void)
 				RingWriteElement(&WL_Ring,&WL_Instant);
 				break;
 		}
-
-		if(count<=TIMEOOUTPERIOD  || WL_Counts>=2 )
-		{
-			Timer6_Stop();
-			count=0;
-			Timer6_Start();
-		}
-
 	}
 
 	if(Entry_flag==1)
 	{
 		WL_Instant=Timer2_GetTimer();
 		RingWriteElement(&WL_Ring,&WL_Instant);
+	}
+
+	if(count<=TIMEOOUTPERIOD  || WL_Counts>=2 )
+	{
+		Timer6_Stop();
+		count=0;
+		Timer6_Start();
 	}
 }

@@ -18,7 +18,7 @@
   ******************************************************************************
   */
 #pragma once
-#define TIMEOOUTPERIOD 300
+#define TIMEOOUTPERIOD 20
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/

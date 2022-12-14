@@ -158,7 +158,8 @@ int main(void)
   MX_USART2_UART_Init();
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-
+  unsigned char* Count_Bulletin[10];
+  unsigned char* Count_Bulletin1[10];
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -236,26 +237,36 @@ int main(void)
 	  		  break;
 
 	  	  case WRSide_Train_Presence_State:
+
+			  itoa(count,Count_Bulletin,10);
+			  send(0, (uint32_t *)strcat(Count_Bulletin,","), strlen(Count_Bulletin));
+			  HAL_Delay(1000);
+
+			  if (count>TIMEOOUTPERIOD)
+			  {
+				  Set_event(Train_Exit_Event);
+			  }
+
 	  		  if(Get_event()==Train_Exit_Event)
 	  		  {
 	  			  Train_Exit_State_Handler();
-	  		  }
-
-	  		  if (count>TIMEOOUTPERIOD)
-	  		  {
-	  			  Set_event(Train_Exit_Event);
 	  		  }
 	  		  break;
 
 	  	  case WLSide_Train_Presence_State:
+
+			  itoa(count,Count_Bulletin1,10);
+			  send(0, (uint32_t *)strcat(Count_Bulletin1,","), strlen(Count_Bulletin1));
+			  HAL_Delay(1000);
+
+			  if (count>TIMEOOUTPERIOD)
+			  {
+				  Set_event(Train_Exit_Event);
+			  }
+
 	  		  if(Get_event()==Train_Exit_Event)
 	  		  {
 	  			  Train_Exit_State_Handler();
-	  		  }
-
-	  		  if (count>TIMEOOUTPERIOD)
-	  		  {
-	  			  Set_event(Train_Exit_Event);
 	  		  }
 	  		  break;
 
