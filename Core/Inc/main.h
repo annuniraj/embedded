@@ -64,23 +64,33 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define FCT_TRIG_LED_Pin GPIO_PIN_13
+#define FCT_TRIG_LED_GPIO_Port GPIOC
 #define WR_IP_Pin GPIO_PIN_0
 #define WR_IP_GPIO_Port GPIOA
 #define WR_IP_EXTI_IRQn EXTI0_IRQn
 #define WL_IP_Pin GPIO_PIN_1
 #define WL_IP_GPIO_Port GPIOA
 #define WL_IP_EXTI_IRQn EXTI1_IRQn
+#define LA_TRIG_LED_Pin GPIO_PIN_4
+#define LA_TRIG_LED_GPIO_Port GPIOA
 #define F_IP_Pin GPIO_PIN_5
 #define F_IP_GPIO_Port GPIOA
 #define F_IP_EXTI_IRQn EXTI9_5_IRQn
+#define CA_TRIG_LED_Pin GPIO_PIN_7
+#define CA_TRIG_LED_GPIO_Port GPIOA
 #define LAN_CS_Pin GPIO_PIN_0
 #define LAN_CS_GPIO_Port GPIOB
 #define LAN_INT_Pin GPIO_PIN_2
 #define LAN_INT_GPIO_Port GPIOB
+#define WL_TRIG_LED_Pin GPIO_PIN_15
+#define WL_TRIG_LED_GPIO_Port GPIOB
 #define CA_OP1_Pin GPIO_PIN_8
 #define CA_OP1_GPIO_Port GPIOA
 #define LA_OP1_Pin GPIO_PIN_9
 #define LA_OP1_GPIO_Port GPIOA
+#define WR_TRIG_LED_Pin GPIO_PIN_12
+#define WR_TRIG_LED_GPIO_Port GPIOA
 #define LAN_RESET_Pin GPIO_PIN_15
 #define LAN_RESET_GPIO_Port GPIOA
 #define CA_OP_Pin GPIO_PIN_8

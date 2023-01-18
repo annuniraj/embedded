@@ -84,45 +84,45 @@ void Send_WL_Samples()
 void Send_Data()
 {
 	send(0, (uint8_t *)GRAB_STOP_CMD,strlen(GRAB_STOP_CMD));
-	HAL_Delay(500);
+	HAL_Delay(100);
 	send(0, (uint8_t *)LOG_START_CMD,strlen(LOG_START_CMD));
-	HAL_Delay(500);
+	HAL_Delay(100);
 
 	send(0, (uint8_t *)LOG_WR_CMD,strlen(LOG_WR_CMD));
-	HAL_Delay(500);
+	HAL_Delay(100);
 
 	Send_WR_Samples();//send WR Samples
-	HAL_Delay(500);
+	HAL_Delay(100);
 	send(0, (uint8_t *)LOG_END_WRITE_CMD,strlen(LOG_END_WRITE_CMD));
-	HAL_Delay(500);
+	HAL_Delay(100);
 
 	send(0, (uint8_t *)LOG_FCT_CMD,strlen(LOG_FCT_CMD));
-	HAL_Delay(500);
+	HAL_Delay(100);
 
-	Send_FCT_Samples();//send  Samples
-	HAL_Delay(500);
+	//Send_FCT_Samples();//send  Samples
+	HAL_Delay(100);
 	send(0, (uint8_t *)LOG_END_WRITE_CMD,strlen(LOG_END_WRITE_CMD));
-	HAL_Delay(500);
+	HAL_Delay(100);
 
 	send(0, (uint8_t *)LOG_WL_CMD,strlen(LOG_WL_CMD));
-	HAL_Delay(500);
+	HAL_Delay(100);
 
 	Send_WL_Samples();
-	HAL_Delay(500);
+	HAL_Delay(100);
 	send(0, (uint8_t *)LOG_END_WRITE_CMD,strlen(LOG_END_WRITE_CMD));
-	HAL_Delay(500);
+	HAL_Delay(100);
 
 	itoa(WR_Counts,WR_Count_Bulletin,10);
 	send(0, (buff_size *)strcat(WR_Count_Bulletin,","),strlen(WR_Count_Bulletin));
 
-	HAL_Delay(500);
+	HAL_Delay(100);
 	itoa(FCT_Counts,FCT_Count_Bulletin,10);
 	send(0, (buff_size *)strcat(FCT_Count_Bulletin,","),strlen(FCT_Count_Bulletin));
 
-	HAL_Delay(500);
+	HAL_Delay(100);
 	itoa(WL_Counts,WL_Count_Bulletin,10);
 	send(0, (buff_size *)strcat(WL_Count_Bulletin,","),strlen(WL_Count_Bulletin));
 
-	HAL_Delay(500);
+	HAL_Delay(100);
 	send(0, (uint8_t *)LOG_STOP_CMD,strlen(LOG_STOP_CMD));
 }

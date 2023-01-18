@@ -240,9 +240,9 @@ int main(void)
 
 	  	  case WRSide_Train_Presence_State:
 
-			  itoa(count,Count_Bulletin,10);
-			  send(0, (uint32_t *)strcat(Count_Bulletin,","), strlen(Count_Bulletin));
-			  HAL_Delay(1000);
+//			  itoa(count,Count_Bulletin,10);
+//			  send(0, (uint32_t *)strcat(Count_Bulletin,","), strlen(Count_Bulletin));
+//			  HAL_Delay(1000);
 
 			  if (count>TIMEOOUTPERIOD)
 			  {
@@ -257,9 +257,9 @@ int main(void)
 
 	  	  case WLSide_Train_Presence_State:
 
-			  itoa(count,Count_Bulletin1,10);
-			  send(0, (uint32_t *)strcat(Count_Bulletin1,","), strlen(Count_Bulletin1));
-			  HAL_Delay(1000);
+//			  itoa(count,Count_Bulletin1,10);
+//			  send(0, (uint32_t *)strcat(Count_Bulletin1,","), strlen(Count_Bulletin1));
+//			  HAL_Delay(1000);
 
 			  if (count>TIMEOOUTPERIOD)
 			  {
@@ -617,21 +617,45 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LAN_CS_GPIO_Port, LAN_CS_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(FCT_TRIG_LED_GPIO_Port, FCT_TRIG_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12|CA_OP_Pin|LA_OP_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LA_TRIG_LED_Pin|CA_TRIG_LED_Pin|WR_TRIG_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, CA_OP1_Pin|LA_OP1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, LAN_CS_Pin|CA_OP_Pin|LA_OP_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LAN_RESET_GPIO_Port, LAN_RESET_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12|WL_TRIG_LED_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, CA_OP1_Pin|LA_OP1_Pin|LAN_RESET_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin : FCT_TRIG_LED_Pin */
+  GPIO_InitStruct.Pin = FCT_TRIG_LED_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(FCT_TRIG_LED_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : WR_IP_Pin WL_IP_Pin F_IP_Pin */
   GPIO_InitStruct.Pin = WR_IP_Pin|WL_IP_Pin|F_IP_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LA_TRIG_LED_Pin CA_OP1_Pin LA_OP1_Pin LAN_RESET_Pin */
+  GPIO_InitStruct.Pin = LA_TRIG_LED_Pin|CA_OP1_Pin|LA_OP1_Pin|LAN_RESET_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : CA_TRIG_LED_Pin WR_TRIG_LED_Pin */
+  GPIO_InitStruct.Pin = CA_TRIG_LED_Pin|WR_TRIG_LED_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LAN_CS_Pin */
@@ -654,12 +678,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : CA_OP1_Pin LA_OP1_Pin LAN_RESET_Pin */
-  GPIO_InitStruct.Pin = CA_OP1_Pin|LA_OP1_Pin|LAN_RESET_Pin;
+  /*Configure GPIO pin : WL_TRIG_LED_Pin */
+  GPIO_InitStruct.Pin = WL_TRIG_LED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(WL_TRIG_LED_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
@@ -725,6 +749,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 
   case F_IP_Pin:
+
 
 	  switch(Get_state())
 	  {

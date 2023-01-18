@@ -28,7 +28,7 @@
 
 void Manual_delay(void)
 {
-	for(int i=0;i<=120;i++)
+	for(int i=0;i<=8000;i++)
 	{
 
 	}
@@ -62,6 +62,9 @@ void Lan_Interrupt_Service(void)
 
 void WR_Interrupt_Service(void)
 {
+	HAL_GPIO_WritePin(GPIOA,WR_TRIG_LED_Pin,GPIO_PIN_SET);
+	Manual_delay();
+	HAL_GPIO_WritePin(GPIOA,WR_TRIG_LED_Pin,GPIO_PIN_RESET);
 	WR_Counts++;
 	if(Lt_Rt_flag==0)
 	{
@@ -99,6 +102,9 @@ void WR_Interrupt_Service(void)
 
 void FCT_Interrupt_Service(void)
 {
+	HAL_GPIO_WritePin(GPIOC,FCT_TRIG_LED_Pin,GPIO_PIN_SET);
+	Manual_delay();
+	HAL_GPIO_WritePin(GPIOC,FCT_TRIG_LED_Pin,GPIO_PIN_RESET);
 	FCT_Counts++;
 	if(Lt_Rt_flag==1)
 	{
@@ -110,14 +116,30 @@ void FCT_Interrupt_Service(void)
 		FCT_Instant=Timer2_GetTimer();
 		RingWriteElement(&FCT_Ring,&FCT_Instant);
 
-		//Camera ON
 		//Laser ON
+		HAL_GPIO_WritePin(GPIOA,LA_TRIG_LED_Pin,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOB,LA_OP_Pin,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA,LA_OP1_Pin,GPIO_PIN_RESET);
+		Manual_delay();
+
+		//Camera ON
+		HAL_GPIO_WritePin(GPIOA,CA_TRIG_LED_Pin,GPIO_PIN_SET);
 		HAL_GPIO_WritePin(GPIOB,CA_OP_Pin,GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(GPIOA,CA_OP1_Pin,GPIO_PIN_RESET);
+		//HAL_Delay(200);
 
+		//Camera OFF
 		Manual_delay();
+		Manual_delay();
+		HAL_GPIO_WritePin(GPIOA,CA_TRIG_LED_Pin,GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(GPIOB,CA_OP_Pin,GPIO_PIN_SET);
 		HAL_GPIO_WritePin(GPIOA,CA_OP1_Pin,GPIO_PIN_SET);
+		Manual_delay();
+
+		//Laser OFF
+		HAL_GPIO_WritePin(GPIOA,LA_TRIG_LED_Pin,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB,LA_OP_Pin,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA,LA_OP1_Pin,GPIO_PIN_SET);
 	}
 
 	if(count<=TIMEOOUTPERIOD  || FCT_Counts>=2 )
@@ -131,6 +153,9 @@ void FCT_Interrupt_Service(void)
 
 void WL_Interrupt_Service(void)
 {
+	HAL_GPIO_WritePin(GPIOB,WL_TRIG_LED_Pin,GPIO_PIN_SET);
+	Manual_delay();
+	HAL_GPIO_WritePin(GPIOB,WL_TRIG_LED_Pin,GPIO_PIN_RESET);
 	WL_Counts++;
 	if(Rt_Lt_flag==0)
 	{
@@ -147,6 +172,7 @@ void WL_Interrupt_Service(void)
 				send(0, (uint8_t *)GRAB_START_CMD,strlen(GRAB_START_CMD));
 				Entry_flag=1;
 				Lt_Rt_flag=1;
+				Timer6_Start();
 				break;
 		}
 	}
