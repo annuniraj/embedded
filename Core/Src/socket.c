@@ -65,6 +65,8 @@ static uint16_t sock_is_sending = 0;
 
 static uint16_t sock_remained_size[_WIZCHIP_SOCK_NUM_] = {0,0,};
 
+uint8_t Physical_Connection;
+
 //M20150601 : For extern decleation
 //static uint8_t  sock_pack_info[_WIZCHIP_SOCK_NUM_] = {0,};
 uint8_t  sock_pack_info[_WIZCHIP_SOCK_NUM_] = {0,};
@@ -429,7 +431,20 @@ int32_t recv(uint8_t sn, uint8_t * buf, uint16_t len)
                return SOCKERR_SOCKSTATUS;
             }
          }
-         if((sock_io_mode & (1<<sn)) && (recvsize == 0)) return SOCK_BUSY;
+        if((sock_io_mode & (1<<sn)) && (recvsize == 0)) return SOCK_BUSY;
+     	ctlwizchip(CW_GET_PHYLINK, (void*) &Physical_Connection); // gets physical status of the TCPIP
+
+     	if(Physical_Connection==PHY_LINK_OFF)
+     	{
+     		break;
+     	}
+//     	uint8_t remotePort;
+//     	uint8_t remote;
+//     	remote = getsockopt(0,SO_STATUS, &remotePort);
+//     	if(remotePort==28)
+//     	{
+//     		break;
+//     	}
          if(recvsize != 0) break;
       };
 #if _WIZCHIP_ == 5300

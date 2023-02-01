@@ -20,7 +20,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -72,8 +71,9 @@ extern uint8_t Phy_TCP_IP;
 
 
 uint32_t count;
-uint8_t Recv_Cmd[2048];
-uint8_t Abox_Ready[2048] = ABOX_READY_CMD;
+uint32_t PortStatus;
+uint8_t remotePort;
+uint8_t remote;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -142,7 +142,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+   HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -183,11 +183,17 @@ int main(void)
 	  	  case Initilisation_State:
 	  		  Initilisation_State_Handler();
 
-	  		  recv(0, Recv_Cmd,strlen(Recv_Cmd));
-
-	  		  if((Get_event()==Reset_Event) && (strcmp(Abox_Ready,Recv_Cmd)==0))
+	  		  if(Get_event()==Reset_Event)
 	  		  {
-	  			  Reset_State_Handler();
+		  		  ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
+		  		  if((Phy_TCP_IP==PHY_LINK_OFF) || (PortStatus==SOCKERR_SOCKSTATUS))
+		  		  {
+		  			  Set_state(Initilisation_State);
+		  		  }
+		  		  else
+		  		  {
+		  			Reset_State_Handler();
+		  		  }
 	  		  }
 	  		  break;
 
@@ -229,14 +235,7 @@ int main(void)
 	  		  uint8_t  server_Address[4] = {192,168,1,111};
 	  		  Refresh_Watchdog();
 	  		  connect(0,server_Address,PORT_ADDR);
-
-
-	  		  uint8_t remotePort;
-	  		  uint8_t remote;
 	  		  remote = getsockopt(0,SO_STATUS, &remotePort);
-//	  		  HAL_Delay(500);
-	  		  //memset(&remotePort,0,sizeof(remotePort));
-	  		  //remotePort=0;
 	  		  if(remotePort==28)
 	  		  {
 	  			  Set_state(Initilisation_State);
@@ -668,7 +667,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : LAN_INT_Pin */
   GPIO_InitStruct.Pin = LAN_INT_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(LAN_INT_GPIO_Port, &GPIO_InitStruct);
 

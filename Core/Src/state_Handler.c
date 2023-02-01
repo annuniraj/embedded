@@ -12,6 +12,12 @@
  					FCT_Counts,
  					WL_Counts;
 
+ uint8_t Recv_Cmd[2048];
+ uint8_t Abox_Ready[2048] = "ABOXREADY";
+ extern uint8_t remotePort;
+ extern uint32_t PortStatus;
+ extern uint8_t remote;
+
 void Initilisation_State_Handler()
 {
 	Set_state(Initilisation_State);
@@ -28,7 +34,6 @@ void Initilisation_State_Handler()
 	}
 	else if(Phy_TCP_IP==PHY_LINK_ON)
 	{
-		HAL_Delay(500);
 		HAL_Delay(100);
 		//Connect the TCP iP Connection
 		Refresh_Watchdog();
@@ -36,6 +41,22 @@ void Initilisation_State_Handler()
 		HAL_Delay(100);
 		send(0, (uint8_t *)SYS_INIT_CMD,strlen(SYS_INIT_CMD));
 
+		while(strcmp(Recv_Cmd,Abox_Ready)!=0)
+		{
+			uint32_t remoteee;
+			memset(Recv_Cmd,0,sizeof Recv_Cmd);
+			PortStatus=recv(0, Recv_Cmd,2048);
+			HAL_Delay(100);
+	  		ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
+	  		if(PortStatus==SOCKERR_SOCKSTATUS)
+	  		{
+	  			break;
+	  		}
+	  		if(Phy_TCP_IP==PHY_LINK_OFF)
+	  		{
+	  			break;
+	  		}
+		}
 		Set_event(Reset_Event);
 	}
 }
@@ -73,7 +94,7 @@ void Idle_State_Handler()
 	Set_state(Idle_State);
 
 
-	//send(0, (buff_size *)" Idle,",strlen(" Idle,"));
+	send(0, (buff_size *)" Idle,",strlen(" Idle,"));
 	//reset the event
 	Reset_event();
 	//

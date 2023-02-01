@@ -44,6 +44,9 @@ extern "C" {
 void spi_wb(uint8_t b);
 uint8_t spi_rb(void);
 extern uint32_t count;
+extern uint32_t PortStatus;
+extern uint8_t remotePort;
+extern uint8_t remote;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
