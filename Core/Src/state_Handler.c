@@ -62,6 +62,7 @@ void Reset_State_Handler()
 	Entry_flag=0;
 	Lt_Rt_flag=0;
 	Rt_Lt_flag=0;
+	send(0, (uint8_t *)"RESET",strlen("RESET"));
 	//set the event to idle
 	Set_event(Idle_Event);
 }

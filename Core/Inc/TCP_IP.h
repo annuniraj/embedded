@@ -10,6 +10,7 @@
 //#define PING_ACK_CMD		"ACK_PING"
 
 #define SYS_INIT_CMD		"SYSINIT#1"
+#define ABOX_READY_CMD		"ABOXREADY"
 #define INIT_CMD			"INIT#1"
 #define GRAB_START_CMD		"GRABSTART#1"
 #define GRAB_STOP_CMD		"GRABSTOP#1"
@@ -28,6 +29,7 @@
 extern uint8_t Phy_TCP_IP;
 extern uint8_t Receive_Buffer[255]; // defined in Interrupt_Service.c
 extern uint8_t Connect_Reply;
+
 
 
 void Init_Ethernet(void);

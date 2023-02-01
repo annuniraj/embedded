@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -69,7 +70,10 @@ extern unsigned long int	WR_Counts,
 							WL_Counts;
 extern uint8_t Phy_TCP_IP;
 
+
 uint32_t count;
+uint8_t Recv_Cmd[2048];
+uint8_t Abox_Ready[2048] = ABOX_READY_CMD;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -179,7 +183,9 @@ int main(void)
 	  	  case Initilisation_State:
 	  		  Initilisation_State_Handler();
 
-	  		  if(Get_event()==Reset_Event)
+	  		  recv(0, Recv_Cmd,strlen(Recv_Cmd));
+
+	  		  if((Get_event()==Reset_Event) && (strcmp(Abox_Ready,Recv_Cmd)==0))
 	  		  {
 	  			  Reset_State_Handler();
 	  		  }
