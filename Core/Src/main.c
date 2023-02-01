@@ -620,16 +620,16 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(FCT_TRIG_LED_GPIO_Port, FCT_TRIG_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LA_TRIG_LED_Pin|CA_TRIG_LED_Pin|WR_TRIG_LED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LA_TRIG_LED_Pin|CA_TRIG_LED_Pin|CA_OP1_Pin|WR_TRIG_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, LAN_CS_Pin|CA_OP_Pin|LA_OP_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, LAN_CS_Pin|LA_OP_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12|WL_TRIG_LED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12|WL_TRIG_LED_Pin|CA_OP_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, CA_OP1_Pin|LA_OP1_Pin|LAN_RESET_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOA, LA_OP1_Pin|LAN_RESET_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin : FCT_TRIG_LED_Pin */
   GPIO_InitStruct.Pin = FCT_TRIG_LED_Pin;
@@ -644,17 +644,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LA_TRIG_LED_Pin CA_OP1_Pin LA_OP1_Pin LAN_RESET_Pin */
-  GPIO_InitStruct.Pin = LA_TRIG_LED_Pin|CA_OP1_Pin|LA_OP1_Pin|LAN_RESET_Pin;
+  /*Configure GPIO pins : LA_TRIG_LED_Pin CA_TRIG_LED_Pin CA_OP1_Pin LA_OP1_Pin
+                           LAN_RESET_Pin */
+  GPIO_InitStruct.Pin = LA_TRIG_LED_Pin|CA_TRIG_LED_Pin|CA_OP1_Pin|LA_OP1_Pin
+                          |LAN_RESET_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : CA_TRIG_LED_Pin WR_TRIG_LED_Pin */
-  GPIO_InitStruct.Pin = CA_TRIG_LED_Pin|WR_TRIG_LED_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
@@ -684,6 +679,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(WL_TRIG_LED_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : WR_TRIG_LED_Pin */
+  GPIO_InitStruct.Pin = WR_TRIG_LED_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(WR_TRIG_LED_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
