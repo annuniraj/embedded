@@ -142,7 +142,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-   HAL_Init();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -625,16 +625,16 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(FCT_TRIG_LED_GPIO_Port, FCT_TRIG_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LA_TRIG_LED_Pin|CA_TRIG_LED_Pin|CA_OP1_Pin|WR_TRIG_LED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LA_TRIG_LED_Pin|CA_TRIG_LED_Pin|WR_TRIG_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, LAN_CS_Pin|LA_OP_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, LAN_CS_Pin|CA_OP_Pin|LA_OP_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12|WL_TRIG_LED_Pin|CA_OP_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12|WL_TRIG_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LA_OP1_Pin|LAN_RESET_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOA, CA_OP1_Pin|LA_OP1_Pin|LAN_RESET_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin : FCT_TRIG_LED_Pin */
   GPIO_InitStruct.Pin = FCT_TRIG_LED_Pin;

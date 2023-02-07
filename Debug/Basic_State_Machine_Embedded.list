@@ -37,11 +37,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  00019538  00000000  00000000  0003bb40  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00018526  00000000  00000000  00055078  2**0
+ 17 .debug_line   00018524  00000000  00000000  00055078  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0009463e  00000000  00000000  0006d59e  2**0
+ 18 .debug_str    0009463e  00000000  00000000  0006d59c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  00101bdc  2**0
+ 19 .comment      00000050  00000000  00000000  00101bda  2**0
                   CONTENTS, READONLY
  20 .debug_frame  00005328  00000000  00000000  00101c2c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -1492,7 +1492,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-   HAL_Init();
+  HAL_Init();
  8000b66:	f002 fd4d 	bl	8003604 <HAL_Init>
   /* USER CODE BEGIN Init */
 
@@ -2595,30 +2595,30 @@ static void MX_GPIO_Init(void)
  800117a:	f002 fd83 	bl	8003c84 <HAL_GPIO_WritePin>
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LA_TRIG_LED_Pin|CA_TRIG_LED_Pin|CA_OP1_Pin|WR_TRIG_LED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LA_TRIG_LED_Pin|CA_TRIG_LED_Pin|WR_TRIG_LED_Pin, GPIO_PIN_RESET);
  800117e:	2200      	movs	r2, #0
- 8001180:	f241 1190 	movw	r1, #4496	; 0x1190
+ 8001180:	f241 0190 	movw	r1, #4240	; 0x1090
  8001184:	f04f 4090 	mov.w	r0, #1207959552	; 0x48000000
  8001188:	f002 fd7c 	bl	8003c84 <HAL_GPIO_WritePin>
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, LAN_CS_Pin|LA_OP_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, LAN_CS_Pin|CA_OP_Pin|LA_OP_Pin, GPIO_PIN_SET);
  800118c:	2201      	movs	r2, #1
- 800118e:	f240 2101 	movw	r1, #513	; 0x201
+ 800118e:	f240 3101 	movw	r1, #769	; 0x301
  8001192:	4852      	ldr	r0, [pc, #328]	; (80012dc <MX_GPIO_Init+0x1e0>)
  8001194:	f002 fd76 	bl	8003c84 <HAL_GPIO_WritePin>
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12|WL_TRIG_LED_Pin|CA_OP_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12|WL_TRIG_LED_Pin, GPIO_PIN_RESET);
  8001198:	2200      	movs	r2, #0
- 800119a:	f44f 4111 	mov.w	r1, #37120	; 0x9100
+ 800119a:	f44f 4110 	mov.w	r1, #36864	; 0x9000
  800119e:	484f      	ldr	r0, [pc, #316]	; (80012dc <MX_GPIO_Init+0x1e0>)
  80011a0:	f002 fd70 	bl	8003c84 <HAL_GPIO_WritePin>
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LA_OP1_Pin|LAN_RESET_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOA, CA_OP1_Pin|LA_OP1_Pin|LAN_RESET_Pin, GPIO_PIN_SET);
  80011a4:	2201      	movs	r2, #1
- 80011a6:	f44f 4102 	mov.w	r1, #33280	; 0x8200
+ 80011a6:	f44f 4103 	mov.w	r1, #33536	; 0x8300
  80011aa:	f04f 4090 	mov.w	r0, #1207959552	; 0x48000000
  80011ae:	f002 fd69 	bl	8003c84 <HAL_GPIO_WritePin>
 
