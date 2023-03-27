@@ -6,8 +6,8 @@
 #endif /* INC_TCP_IP_H_ */
 
 #define PORT_ADDR			9099
-//#define PING_CMD			"PING"
-//#define PING_ACK_CMD		"ACK_PING"
+#define PING_CMD			"PING"
+#define PING_ACK_CMD		"ACK_PING"
 
 #define SYS_INIT_CMD		"SYSINIT#1"
 #define ABOX_READY_CMD		"ABOXREADY"

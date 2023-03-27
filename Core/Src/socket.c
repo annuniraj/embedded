@@ -66,6 +66,8 @@ static uint16_t sock_is_sending = 0;
 static uint16_t sock_remained_size[_WIZCHIP_SOCK_NUM_] = {0,0,};
 
 uint8_t Physical_Connection;
+uint8_t remote1;
+uint8_t remotePort1;
 
 //M20150601 : For extern decleation
 //static uint8_t  sock_pack_info[_WIZCHIP_SOCK_NUM_] = {0,};
@@ -438,14 +440,18 @@ int32_t recv(uint8_t sn, uint8_t * buf, uint16_t len)
      	{
      		break;
      	}
-//     	uint8_t remotePort;
-//     	uint8_t remote;
-//     	remote = getsockopt(0,SO_STATUS, &remotePort);
-//     	if(remotePort==28)
-//     	{
-//     		break;
-//     	}
+
          if(recvsize != 0) break;
+         if(recvsize == 0) break;
+
+ 		  uint8_t  server_Address[4] = {192,168,1,111};
+ 		  Refresh_Watchdog();
+ 		  connect(0,server_Address,9099);
+ 		  remote1 = getsockopt(0,SO_STATUS, &remotePort1);
+ 		  if(remotePort1==28)
+ 		  {
+ 			  break;
+ 		  }
       };
 #if _WIZCHIP_ == 5300
    }

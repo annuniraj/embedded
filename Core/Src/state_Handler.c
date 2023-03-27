@@ -13,7 +13,7 @@
  					WL_Counts;
 
  uint8_t Recv_Cmd[2048];
- uint8_t Abox_Ready[2048] = "ABOXREADY";
+ uint8_t Abox_Ready[2048] = "ACK_PING1";
  extern uint8_t remotePort;
  extern uint32_t PortStatus;
  extern uint8_t remote;
@@ -39,6 +39,7 @@ void Initilisation_State_Handler()
 		Refresh_Watchdog();
 		Ethernet_Connect();
 		HAL_Delay(100);
+
 		send(0, (uint8_t *)SYS_INIT_CMD,strlen(SYS_INIT_CMD));
 
 		while(strcmp(Recv_Cmd,Abox_Ready)!=0)
@@ -83,6 +84,7 @@ void Reset_State_Handler()
 	Entry_flag=0;
 	Lt_Rt_flag=0;
 	Rt_Lt_flag=0;
+	memset(Recv_Cmd,0,sizeof Recv_Cmd);
 	send(0, (uint8_t *)"RESET",strlen("RESET"));
 	//set the event to idle
 	Set_event(Idle_Event);

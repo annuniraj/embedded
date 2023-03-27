@@ -69,11 +69,15 @@ extern unsigned long int	WR_Counts,
 							WL_Counts;
 extern uint8_t Phy_TCP_IP;
 
+extern uint8_t  server_Add[4];
+
 
 uint32_t count;
 uint32_t PortStatus;
 uint8_t remotePort;
 uint8_t remote;
+uint8_t Ping_ack[2048] = PING_ACK_CMD;
+uint8_t Recv_Ping[2048];
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -228,8 +232,16 @@ int main(void)
 	  		  // Else If physical connection OK, send ping command to abox,
 	  		  else if(Phy_TCP_IP==PHY_LINK_ON)
 	  		  {
-	  			  HAL_Delay(100);
-	  			  //send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
+	  			  HAL_Delay(500);
+	  			  send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
+	  			  HAL_Delay(5000);
+	  			  memset(Recv_Ping,0,sizeof Recv_Ping);
+	  			  recv(0, Recv_Ping,2048);
+	  			  if(strcmp(Ping_ack,Recv_Ping)!=0)
+	  			  {
+	  				  Set_state(Initilisation_State);
+	  			  }
+
 	  		  }
 
 	  		  uint8_t  server_Address[4] = {192,168,1,111};
