@@ -19,6 +19,8 @@
   */
 #pragma once
 #define TIMEOOUTPERIOD 20
+#define TIM16TIMEOOUTPERIOD	10
+#define TIM17TIMEOOUTPERIOD	1
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -108,6 +110,10 @@ void Timer2_DeInitilized();
 int Timer2_GetTimer();
 void Timer6_Stop();
 void Timer6_Start();
+void Timer16_Stop();
+void Timer16_Start();
+void Timer17_Stop();
+void Timer17_Start();
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

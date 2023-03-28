@@ -47,6 +47,8 @@ SPI_HandleTypeDef hspi3;
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim6;
+TIM_HandleTypeDef htim16;
+TIM_HandleTypeDef htim17;
 
 UART_HandleTypeDef huart2;
 
@@ -63,6 +65,8 @@ static void MX_SPI3_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_TIM6_Init(void);
+static void MX_TIM16_Init(void);
+static void MX_TIM17_Init(void);
 /* USER CODE BEGIN PFP */
 extern unsigned long int	WR_Counts,
 							FCT_Counts,
@@ -73,6 +77,8 @@ extern uint8_t  server_Add[4];
 
 
 uint32_t count;
+uint32_t tim16_count;
+uint32_t tim17_count;
 uint32_t PortStatus;
 uint8_t remotePort;
 uint8_t remote;
@@ -103,12 +109,16 @@ void Timer2_DeInitilized()
 {
 	HAL_TIM_Base_DeInit(&htim2);
 	HAL_TIM_Base_DeInit(&htim6);
+	HAL_TIM_Base_DeInit(&htim16);
+	HAL_TIM_Base_DeInit(&htim17);
 }
 
 void Timer2_Initilized()
 {
 	HAL_TIM_Base_Init(&htim2);
 	HAL_TIM_Base_Init(&htim6);
+	HAL_TIM_Base_Init(&htim16);
+	HAL_TIM_Base_Init(&htim17);
 }
 
 void Timer2_Start()
@@ -124,6 +134,26 @@ void Timer6_Start()
 void Timer6_Stop()
 {
 	HAL_TIM_Base_Stop_IT(&htim6);
+}
+
+void Timer16_Start()
+{
+	HAL_TIM_Base_Start_IT(&htim16);
+}
+
+void Timer16_Stop()
+{
+	HAL_TIM_Base_Stop_IT(&htim16);
+}
+
+void Timer17_Start()
+{
+	HAL_TIM_Base_Start_IT(&htim17);
+}
+
+void Timer17_Stop()
+{
+	HAL_TIM_Base_Stop_IT(&htim17);
 }
 
 int Timer2_GetTimer()
@@ -167,6 +197,8 @@ int main(void)
   MX_TIM2_Init();
   MX_USART2_UART_Init();
   MX_TIM6_Init();
+  MX_TIM16_Init();
+  MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
   unsigned char* Count_Bulletin[10];
   unsigned char* Count_Bulletin1[10];
@@ -205,6 +237,9 @@ int main(void)
 	  		  if(Get_event()==Idle_Event)
 	  		  {
 	  			  Idle_State_Handler();
+	  			  Timer16_Stop();
+	  			  tim16_count=0;
+	  			  Timer16_Start();
 	  		  }
 	  		  break;
 
@@ -220,29 +255,28 @@ int main(void)
 	  		  }
 
 	  		  // Check for physical connection.
-	  		  ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP); // gets physical status of the TCPIP
-
-	  		  //if phy connection NOK, set state to initialization state
-	  		  if(Phy_TCP_IP==PHY_LINK_OFF)
-	  		  {
-					//Save the status in the flash memory with date and time stamp+++++++++++++++++++++
-	  			  Set_state(Initilisation_State);
-	  		  }
-
-	  		  // Else If physical connection OK, send ping command to abox,
-	  		  else if(Phy_TCP_IP==PHY_LINK_ON)
-	  		  {
-	  			  HAL_Delay(500);
-	  			  send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
-	  			  HAL_Delay(5000);
-	  			  memset(Recv_Ping,0,sizeof Recv_Ping);
-	  			  recv(0, Recv_Ping,2048);
-	  			  if(strcmp(Ping_ack,Recv_Ping)!=0)
-	  			  {
-	  				  Set_state(Initilisation_State);
-	  			  }
-
-	  		  }
+//	  		  ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP); // gets physical status of the TCPIP
+//
+//	  		  //if phy connection NOK, set state to initialization state
+//	  		  if(Phy_TCP_IP==PHY_LINK_OFF)
+//	  		  {
+//					//Save the status in the flash memory with date and time stamp+++++++++++++++++++++
+//	  			  Set_state(Initilisation_State);
+//	  		  }
+//
+//	  		  // Else If physical connection OK, send ping command to abox,
+//	  		  else if(Phy_TCP_IP==PHY_LINK_ON)
+//	  		  {
+//	  			  send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
+//	  			  HAL_Delay(5000);
+//	  			  memset(Recv_Ping,0,sizeof Recv_Ping);
+//	  			  recv(0, Recv_Ping,2048);
+//	  			  if(strcmp(Ping_ack,Recv_Ping)!=0)
+//	  			  {
+//	  				  Set_state(Initilisation_State);
+//	  			  }
+//
+//	  		  }
 
 	  		  uint8_t  server_Address[4] = {192,168,1,111};
 	  		  Refresh_Watchdog();
@@ -251,6 +285,49 @@ int main(void)
 	  		  if(remotePort==28)
 	  		  {
 	  			  Set_state(Initilisation_State);
+	  		  }
+
+	  		   //Check for physical connection.
+	  		  ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
+	  		  if(Phy_TCP_IP==PHY_LINK_OFF)
+	  		  {
+	  			  Set_state(Initilisation_State);
+	  		  }
+
+	  		  else if(Phy_TCP_IP==PHY_LINK_ON)
+	  		  {
+	  			  if (tim16_count>TIM16TIMEOOUTPERIOD)
+	  			  {
+	  				send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
+	  				Timer16_Stop();
+	  				tim16_count=0;
+	  				Timer16_Start();
+	  				//Timer17_Start();
+	  			  }
+
+//	  			  while(tim17_count<TIM17TIMEOOUTPERIOD)
+//	  			  {
+//		  			  memset(Recv_Ping,0,sizeof Recv_Ping);
+//		  			  recv(0, Recv_Ping,2048);
+//		  			  if(strcmp(Ping_ack,Recv_Ping)!=0)
+//		  			  {
+//		  				  Set_state(Initilisation_State);
+//		  				  break;
+//		  			  }
+//
+//			  		  if(Get_event()==WRSide_Train_Detect_Event)
+//			  		  {
+//			  			  WRSide_Train_Presence_State_Handler();
+//			  			  break;
+//			  		  }
+//			  		  else if (Get_event()==WLSide_Train_Detect_Event)
+//			  		  {
+//			  			  WLSide_Train_Presence_State_Handler();
+//			  			  break;
+//			  		  }
+//	  			  }
+//	  			  Timer17_Stop();
+//	  			  tim17_count=0;
 	  		  }
 
 	  		  break;
@@ -349,8 +426,11 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC|RCC_PERIPHCLK_TIM16
+                              |RCC_PERIPHCLK_TIM17;
   PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+  PeriphClkInit.Tim16ClockSelection = RCC_TIM16CLK_HCLK;
+  PeriphClkInit.Tim17ClockSelection = RCC_TIM17CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
@@ -404,10 +484,10 @@ static void MX_RTC_Init(void)
   {
     Error_Handler();
   }
-  sDate.WeekDay = RTC_WEEKDAY_MONDAY;
-  sDate.Month = RTC_MONTH_MAY;
-  sDate.Date = 0x25;
-  sDate.Year = 0x22;
+  sDate.WeekDay = RTC_WEEKDAY_TUESDAY;
+  sDate.Month = RTC_MONTH_MARCH;
+  sDate.Date = 0x28;
+  sDate.Year = 0x23;
 
   if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BCD) != HAL_OK)
   {
@@ -579,6 +659,70 @@ static void MX_TIM6_Init(void)
   /* USER CODE BEGIN TIM6_Init 2 */
 
   /* USER CODE END TIM6_Init 2 */
+
+}
+
+/**
+  * @brief TIM16 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM16_Init(void)
+{
+
+  /* USER CODE BEGIN TIM16_Init 0 */
+
+  /* USER CODE END TIM16_Init 0 */
+
+  /* USER CODE BEGIN TIM16_Init 1 */
+
+  /* USER CODE END TIM16_Init 1 */
+  htim16.Instance = TIM16;
+  htim16.Init.Prescaler = 6999;
+  htim16.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim16.Init.Period = 9999;
+  htim16.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim16.Init.RepetitionCounter = 0;
+  htim16.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim16) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM16_Init 2 */
+
+  /* USER CODE END TIM16_Init 2 */
+
+}
+
+/**
+  * @brief TIM17 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM17_Init(void)
+{
+
+  /* USER CODE BEGIN TIM17_Init 0 */
+
+  /* USER CODE END TIM17_Init 0 */
+
+  /* USER CODE BEGIN TIM17_Init 1 */
+
+  /* USER CODE END TIM17_Init 1 */
+  htim17.Instance = TIM17;
+  htim17.Init.Prescaler = 6999;
+  htim17.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim17.Init.Period = 9999;
+  htim17.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim17.Init.RepetitionCounter = 0;
+  htim17.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim17) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM17_Init 2 */
+
+  /* USER CODE END TIM17_Init 2 */
 
 }
 
