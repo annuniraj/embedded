@@ -53,7 +53,10 @@ TIM_HandleTypeDef htim17;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-
+#define RtcHandle &hrtc
+static uint16_t YearStart = 2000;
+char message[50];
+uint8_t size;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -204,8 +207,21 @@ int main(void)
   MX_TIM16_Init();
   MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
-  unsigned char* Count_Bulletin[10];
-  unsigned char* Count_Bulletin1[10];
+  //unsigned char* Count_Bulletin[10];
+  //unsigned char* Count_Bulletin1[10];
+  //unsigned char Date_RTC[10], Month_RTC[10], Year_RTC[10], Hour_RTC[10], Min_RTC[10], Sec_RTC[10];
+  RTC_TimeTypeDef sTime;
+  RTC_DateTypeDef sDate;
+
+  sDate.WeekDay = RTC_WEEKDAY_MONDAY;
+  sDate.Date = 29;
+  sDate.Month = 3;
+  sDate.Year = 23;
+  HAL_RTC_SetDate(RtcHandle, &sDate, RTC_FORMAT_BIN);
+  sTime.Hours = 18;
+  sTime.Minutes = 50;
+  HAL_RTC_SetTime(RtcHandle, &sTime, RTC_FORMAT_BIN);
+  uint16_t mseconds;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -218,6 +234,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  HAL_RTC_GetTime(RtcHandle, &sTime, RTC_FORMAT_BIN);
+	  HAL_RTC_GetDate(RtcHandle, &sDate, RTC_FORMAT_BIN);
+	  mseconds = (sTime.SubSeconds * 1000) / (sTime.SecondFraction + 1);
+
 	  switch(Get_state())
 	  	  {
 	  	  case Initilisation_State:
@@ -302,7 +322,10 @@ int main(void)
 	  		  {
 	  			  if (tim16_count>TIM16TIMEOOUTPERIOD)
 	  			  {
-	  				send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
+	  				//itoa(sDate.Date,Date_RTC,10);
+	  				size = sprintf(message, "Date: %2.2u-%2.2u-%4.4u\n\r", sDate.Date, sDate.Month, sDate.Year + YearStart);
+	  				send(0, (uint8_t *)message,strlen(size));
+	  				//send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
 	  				Timer16_Stop();
 	  				tim16_count=0;
 	  				Timer16_Start();
@@ -492,10 +515,10 @@ static void MX_RTC_Init(void)
   {
     Error_Handler();
   }
-  sDate.WeekDay = RTC_WEEKDAY_TUESDAY;
+  sDate.WeekDay = RTC_WEEKDAY_WEDNESDAY;
   sDate.Month = RTC_MONTH_MARCH;
-  sDate.Date = 0x28;
-  sDate.Year = 0x23;
+  sDate.Date = 0x29;
+  sDate.Year = 0x0;
 
   if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BCD) != HAL_OK)
   {

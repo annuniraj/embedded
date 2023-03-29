@@ -14,6 +14,7 @@
  				WR_Count_Bulletin[10],
  				WL_Count_Bulletin[10],
  				FCT_Count_Bulletin[10];
+
  uint8_t WR_Roller,
  		WL_Roller,
  		FCT_Roller;
