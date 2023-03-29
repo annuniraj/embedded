@@ -138,22 +138,26 @@ void Timer6_Stop()
 
 void Timer16_Start()
 {
+	HAL_TIM_Base_Init(&htim16);
 	HAL_TIM_Base_Start_IT(&htim16);
 }
 
 void Timer16_Stop()
 {
 	HAL_TIM_Base_Stop_IT(&htim16);
+	HAL_TIM_Base_DeInit(&htim16);
 }
 
 void Timer17_Start()
 {
+	HAL_TIM_Base_Init(&htim17);
 	HAL_TIM_Base_Start_IT(&htim17);
 }
 
 void Timer17_Stop()
 {
 	HAL_TIM_Base_Stop_IT(&htim17);
+	HAL_TIM_Base_DeInit(&htim17);
 }
 
 int Timer2_GetTimer()
@@ -277,15 +281,15 @@ int main(void)
 //	  			  }
 //
 //	  		  }
-
-	  		  uint8_t  server_Address[4] = {192,168,1,111};
-	  		  Refresh_Watchdog();
-	  		  connect(0,server_Address,PORT_ADDR);
-	  		  remote = getsockopt(0,SO_STATUS, &remotePort);
-	  		  if(remotePort==28)
-	  		  {
-	  			  Set_state(Initilisation_State);
-	  		  }
+//
+//	  		  uint8_t  server_Address[4] = {192,168,1,111};
+//	  		  Refresh_Watchdog();
+//	  		  connect(0,server_Address,PORT_ADDR);
+//	  		  remote = getsockopt(0,SO_STATUS, &remotePort);
+//	  		  if(remotePort==28)
+//	  		  {
+//	  			  Set_state(Initilisation_State);
+//	  		  }
 
 	  		   //Check for physical connection.
 	  		  ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
@@ -302,34 +306,38 @@ int main(void)
 	  				Timer16_Stop();
 	  				tim16_count=0;
 	  				Timer16_Start();
-	  				//Timer17_Start();
+	  				Timer17_Start();
+	  				memset(Recv_Ping,0,sizeof Recv_Ping);
+
+	  				while(tim17_count<TIM17TIMEOOUTPERIOD)
+	  				{
+	  					recv(0, Recv_Ping,2048);
+
+
+	  					if(Get_event()==WRSide_Train_Detect_Event)
+	  					{
+	  						WRSide_Train_Presence_State_Handler();
+	  						break;
+	  					}
+	  					else if (Get_event()==WLSide_Train_Detect_Event)
+	  					{
+	  						WLSide_Train_Presence_State_Handler();
+	  						break;
+	  					}
+	  				}
+  					if(strcmp(Ping_ack,Recv_Ping)!=0)
+  					{
+  						Timer17_Stop();
+  						tim17_count=0;
+  						Set_state(Initilisation_State);
+  						break;
+  					}
+	  				Timer17_Stop();
+	  				tim17_count=0;
 	  			  }
-
-//	  			  while(tim17_count<TIM17TIMEOOUTPERIOD)
-//	  			  {
-//		  			  memset(Recv_Ping,0,sizeof Recv_Ping);
-//		  			  recv(0, Recv_Ping,2048);
-//		  			  if(strcmp(Ping_ack,Recv_Ping)!=0)
-//		  			  {
-//		  				  Set_state(Initilisation_State);
-//		  				  break;
-//		  			  }
-//
-//			  		  if(Get_event()==WRSide_Train_Detect_Event)
-//			  		  {
-//			  			  WRSide_Train_Presence_State_Handler();
-//			  			  break;
-//			  		  }
-//			  		  else if (Get_event()==WLSide_Train_Detect_Event)
-//			  		  {
-//			  			  WLSide_Train_Presence_State_Handler();
-//			  			  break;
-//			  		  }
-//	  			  }
-//	  			  Timer17_Stop();
-//	  			  tim17_count=0;
 	  		  }
-
+	  		  //Timer17_Stop();
+	  		  //tim17_count=0;
 	  		  break;
 
 	  	  case WRSide_Train_Presence_State:

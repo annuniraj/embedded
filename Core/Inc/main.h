@@ -20,7 +20,7 @@
 #pragma once
 #define TIMEOOUTPERIOD 20
 #define TIM16TIMEOOUTPERIOD	10
-#define TIM17TIMEOOUTPERIOD	1
+#define TIM17TIMEOOUTPERIOD	5
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
