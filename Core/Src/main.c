@@ -55,7 +55,7 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 #define RtcHandle &hrtc
 static uint16_t YearStart = 2000;
-char message[50];
+char message[50], message1[50];
 uint8_t size;
 /* USER CODE END PV */
 
@@ -209,19 +209,19 @@ int main(void)
   /* USER CODE BEGIN 2 */
   //unsigned char* Count_Bulletin[10];
   //unsigned char* Count_Bulletin1[10];
-  //unsigned char Date_RTC[10], Month_RTC[10], Year_RTC[10], Hour_RTC[10], Min_RTC[10], Sec_RTC[10];
+  unsigned char Date_RTC[10], Month_RTC[10], Year_RTC[10], Hour_RTC[10], Min_RTC[10], Sec_RTC[10];
   RTC_TimeTypeDef sTime;
   RTC_DateTypeDef sDate;
 
-  sDate.WeekDay = RTC_WEEKDAY_MONDAY;
-  sDate.Date = 29;
-  sDate.Month = 3;
-  sDate.Year = 23;
-  HAL_RTC_SetDate(RtcHandle, &sDate, RTC_FORMAT_BIN);
-  sTime.Hours = 18;
-  sTime.Minutes = 50;
-  HAL_RTC_SetTime(RtcHandle, &sTime, RTC_FORMAT_BIN);
-  uint16_t mseconds;
+//  sDate.WeekDay = RTC_WEEKDAY_MONDAY;
+//  sDate.Date = 30;
+//  sDate.Month = 3;
+//  sDate.Year = 23;
+//  HAL_RTC_SetDate(RtcHandle, &sDate, RTC_FORMAT_BIN);
+//  sTime.Hours = 14;
+//  sTime.Minutes = 14;
+//  HAL_RTC_SetTime(RtcHandle, &sTime, RTC_FORMAT_BIN);
+//  uint16_t mseconds;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -236,7 +236,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  HAL_RTC_GetTime(RtcHandle, &sTime, RTC_FORMAT_BIN);
 	  HAL_RTC_GetDate(RtcHandle, &sDate, RTC_FORMAT_BIN);
-	  mseconds = (sTime.SubSeconds * 1000) / (sTime.SecondFraction + 1);
+	  //mseconds = (sTime.SubSeconds * 1000) / (sTime.SecondFraction + 1);
 
 	  switch(Get_state())
 	  	  {
@@ -320,47 +320,52 @@ int main(void)
 
 	  		  else if(Phy_TCP_IP==PHY_LINK_ON)
 	  		  {
+	  			  sprintf(message1, "Time: %2.2u:%2.2u:%2.2u\n\r", sTime.Hours, sTime.Minutes, sTime.Seconds);
+	  			  send(0, (uint32_t *)message1,strlen(message1));
+	  			  sprintf(message, "Date: %2.2u-%2.2u-%4.4u\n\r", sDate.Date, sDate.Month, sDate.Year + YearStart);
+	  			  send(0, (uint32_t *)message,strlen(message));
+	  			  HAL_Delay(1000);
 	  			  if (tim16_count>TIM16TIMEOOUTPERIOD)
 	  			  {
 	  				//itoa(sDate.Date,Date_RTC,10);
-	  				size = sprintf(message, "Date: %2.2u-%2.2u-%4.4u\n\r", sDate.Date, sDate.Month, sDate.Year + YearStart);
-	  				send(0, (uint8_t *)message,strlen(size));
+	  				//size = sprintf(message, "Date: %2.2u-%2.2u-%4.4u\n\r", sDate.Date, sDate.Month, sDate.Year + YearStart);
+	  				//send(0, (uint32_t *)message,strlen(message));
+
+	  				//send(0, (uint32_t *)Date_RTC,strlen(Date_RTC));
 	  				//send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
 	  				Timer16_Stop();
 	  				tim16_count=0;
 	  				Timer16_Start();
-	  				Timer17_Start();
-	  				memset(Recv_Ping,0,sizeof Recv_Ping);
+	  				//Timer17_Start();
+	  				//memset(Recv_Ping,0,sizeof Recv_Ping);
 
-	  				while(tim17_count<TIM17TIMEOOUTPERIOD)
-	  				{
-	  					recv(0, Recv_Ping,2048);
-
-
-	  					if(Get_event()==WRSide_Train_Detect_Event)
-	  					{
-	  						WRSide_Train_Presence_State_Handler();
-	  						break;
-	  					}
-	  					else if (Get_event()==WLSide_Train_Detect_Event)
-	  					{
-	  						WLSide_Train_Presence_State_Handler();
-	  						break;
-	  					}
-	  				}
-  					if(strcmp(Ping_ack,Recv_Ping)!=0)
-  					{
-  						Timer17_Stop();
-  						tim17_count=0;
-  						Set_state(Initilisation_State);
-  						break;
-  					}
-	  				Timer17_Stop();
-	  				tim17_count=0;
+//	  				while(tim17_count<TIM17TIMEOOUTPERIOD)
+//	  				{
+//	  					recv(0, Recv_Ping,2048);
+//
+//
+//	  					if(Get_event()==WRSide_Train_Detect_Event)
+//	  					{
+//	  						WRSide_Train_Presence_State_Handler();
+//	  						break;
+//	  					}
+//	  					else if (Get_event()==WLSide_Train_Detect_Event)
+//	  					{
+//	  						WLSide_Train_Presence_State_Handler();
+//	  						break;
+//	  					}
+//	  				}
+//  					if(strcmp(Ping_ack,Recv_Ping)!=0)
+//  					{
+//  						Timer17_Stop();
+//  						tim17_count=0;
+//  						Set_state(Initilisation_State);
+//  						break;
+//  					}
+//	  				Timer17_Stop();
+//	  				tim17_count=0;
 	  			  }
 	  		  }
-	  		  //Timer17_Stop();
-	  		  //tim17_count=0;
 	  		  break;
 
 	  	  case WRSide_Train_Presence_State:
@@ -501,26 +506,45 @@ static void MX_RTC_Init(void)
   }
 
   /* USER CODE BEGIN Check_RTC_BKUP */
+  if (HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1) != 0xBEBE)
+     {
+     // Write Back Up Register 1 Data
+     HAL_PWR_EnableBkUpAccess();
+     // Writes a data in a RTC Backup data Register 1
+     HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 0xBEBE);
+     HAL_PWR_DisableBkUpAccess();
+     }
+     else
+     {
+        // data register already written so turn LED3
+        return;
+     }
 
   /* USER CODE END Check_RTC_BKUP */
 
   /** Initialize RTC and set the Time and Date
   */
-  sTime.Hours = 0x0;
-  sTime.Minutes = 0x0;
-  sTime.Seconds = 0x0;
+  sTime.Hours = 15;
+  sTime.Minutes = 16;
+  sTime.Seconds = 0;
   sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
   sTime.StoreOperation = RTC_STOREOPERATION_RESET;
-  if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BCD) != HAL_OK)
+  if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN) != HAL_OK)
   {
     Error_Handler();
   }
   sDate.WeekDay = RTC_WEEKDAY_WEDNESDAY;
   sDate.Month = RTC_MONTH_MARCH;
-  sDate.Date = 0x29;
-  sDate.Year = 0x0;
+  sDate.Date = 30;
+  sDate.Year = 23;
 
-  if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BCD) != HAL_OK)
+  if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BIN) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Enable the WakeUp
+  */
+  if (HAL_RTCEx_SetWakeUpTimer(&hrtc, 0, RTC_WAKEUPCLOCK_RTCCLK_DIV16) != HAL_OK)
   {
     Error_Handler();
   }
