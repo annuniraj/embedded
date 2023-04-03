@@ -86,6 +86,7 @@ uint32_t PortStatus;
 uint8_t remotePort;
 uint8_t remote;
 uint8_t Ping_ack[2048] = PING_ACK_CMD;
+uint8_t Abox_not_ready[2048] = ABOX_NOT_READY_CMD;
 uint8_t Recv_Ping[2048];
 /* USER CODE END PFP */
 
@@ -269,7 +270,6 @@ int main(void)
 
 	  	  case Idle_State:
 	  		  if(Get_event()==WRSide_Train_Detect_Event)
-	  			  //Nothing should happen in the idle state! It only polls for a change in state. Event setting and getting and state change happens WRT ISR
 	  		  {
 	  			  WRSide_Train_Presence_State_Handler();
 	  		  }
@@ -278,38 +278,14 @@ int main(void)
 	  			  WLSide_Train_Presence_State_Handler();
 	  		  }
 
-	  		  // Check for physical connection.
-//	  		  ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP); // gets physical status of the TCPIP
-//
-//	  		  //if phy connection NOK, set state to initialization state
-//	  		  if(Phy_TCP_IP==PHY_LINK_OFF)
-//	  		  {
-//					//Save the status in the flash memory with date and time stamp+++++++++++++++++++++
-//	  			  Set_state(Initilisation_State);
-//	  		  }
-//
-//	  		  // Else If physical connection OK, send ping command to abox,
-//	  		  else if(Phy_TCP_IP==PHY_LINK_ON)
-//	  		  {
-//	  			  send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
-//	  			  HAL_Delay(5000);
-//	  			  memset(Recv_Ping,0,sizeof Recv_Ping);
-//	  			  recv(0, Recv_Ping,2048);
-//	  			  if(strcmp(Ping_ack,Recv_Ping)!=0)
-//	  			  {
-//	  				  Set_state(Initilisation_State);
-//	  			  }
-//
-//	  		  }
-//
-//	  		  uint8_t  server_Address[4] = {192,168,1,111};
-//	  		  Refresh_Watchdog();
-//	  		  connect(0,server_Address,PORT_ADDR);
-//	  		  remote = getsockopt(0,SO_STATUS, &remotePort);
-//	  		  if(remotePort==28)
-//	  		  {
-//	  			  Set_state(Initilisation_State);
-//	  		  }
+	  		  uint8_t  server_Address[4] = {192,168,1,111};
+	  		  Refresh_Watchdog();
+	  		  connect(0,server_Address,PORT_ADDR);
+	  		  remote = getsockopt(0,SO_STATUS, &remotePort);
+	  		  if(remotePort==28)
+	  		  {
+	  			  Set_state(Initilisation_State);
+	  		  }
 
 	  		   //Check for physical connection.
 	  		  ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
@@ -320,50 +296,43 @@ int main(void)
 
 	  		  else if(Phy_TCP_IP==PHY_LINK_ON)
 	  		  {
-	  			  sprintf(message1, "Time: %2.2u:%2.2u:%2.2u\n\r", sTime.Hours, sTime.Minutes, sTime.Seconds);
-	  			  send(0, (uint32_t *)message1,strlen(message1));
-	  			  sprintf(message, "Date: %2.2u-%2.2u-%4.4u\n\r", sDate.Date, sDate.Month, sDate.Year + YearStart);
-	  			  send(0, (uint32_t *)message,strlen(message));
-	  			  HAL_Delay(1000);
+	  			  //sprintf(message1, "Time: %2.2u:%2.2u:%2.2u\n\r", sTime.Hours, sTime.Minutes, sTime.Seconds);
+	  			  //send(0, (uint32_t *)message1,strlen(message1));
+	  			  //sprintf(message, "Date: %2.2u-%2.2u-%4.4u\n\r", sDate.Date, sDate.Month, sDate.Year + YearStart,sTime.);
+	  			  //send(0, (uint32_t *)message,strlen(message));
+	  			  //HAL_Delay(1000);
 	  			  if (tim16_count>TIM16TIMEOOUTPERIOD)
 	  			  {
-	  				//itoa(sDate.Date,Date_RTC,10);
-	  				//size = sprintf(message, "Date: %2.2u-%2.2u-%4.4u\n\r", sDate.Date, sDate.Month, sDate.Year + YearStart);
-	  				//send(0, (uint32_t *)message,strlen(message));
-
-	  				//send(0, (uint32_t *)Date_RTC,strlen(Date_RTC));
-	  				//send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
+	  				send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
 	  				Timer16_Stop();
 	  				tim16_count=0;
 	  				Timer16_Start();
-	  				//Timer17_Start();
-	  				//memset(Recv_Ping,0,sizeof Recv_Ping);
+	  				Timer17_Start();
+	  				memset(Recv_Ping,0,sizeof Recv_Ping);
 
-//	  				while(tim17_count<TIM17TIMEOOUTPERIOD)
-//	  				{
-//	  					recv(0, Recv_Ping,2048);
-//
-//
-//	  					if(Get_event()==WRSide_Train_Detect_Event)
-//	  					{
-//	  						WRSide_Train_Presence_State_Handler();
-//	  						break;
-//	  					}
-//	  					else if (Get_event()==WLSide_Train_Detect_Event)
-//	  					{
-//	  						WLSide_Train_Presence_State_Handler();
-//	  						break;
-//	  					}
-//	  				}
-//  					if(strcmp(Ping_ack,Recv_Ping)!=0)
-//  					{
-//  						Timer17_Stop();
-//  						tim17_count=0;
-//  						Set_state(Initilisation_State);
-//  						break;
-//  					}
-//	  				Timer17_Stop();
-//	  				tim17_count=0;
+	  				while(tim17_count<TIM17TIMEOOUTPERIOD)
+	  				{
+	  					recv(0, Recv_Ping,2048);
+	  					if(Get_event()==WRSide_Train_Detect_Event)
+	  					{
+	  						WRSide_Train_Presence_State_Handler();
+	  						break;
+	  					}
+	  					else if (Get_event()==WLSide_Train_Detect_Event)
+	  					{
+	  						WLSide_Train_Presence_State_Handler();
+	  						break;
+	  					}
+	  				}
+  					if((strcmp(Ping_ack,Recv_Ping)!=0) || (strcmp(Abox_not_ready,Recv_Ping)==0))
+  					{
+  						Timer17_Stop();
+  						tim17_count=0;
+  						Set_state(Initilisation_State);
+  						break;
+  					}
+	  				Timer17_Stop();
+	  				tim17_count=0;
 	  			  }
 	  		  }
 	  		  break;
