@@ -1,5 +1,0 @@
-../Core/Src/TCP_IP.c:21:6:cs_sel	8	static
-../Core/Src/TCP_IP.c:26:6:cs_desel	8	static
-../Core/Src/TCP_IP.c:32:6:Init_Ethernet	40	static
-../Core/Src/TCP_IP.c:52:6:Ethernet_Connect	8	static
-../Core/Src/TCP_IP.c:73:6:Refresh_Watchdog	4	static

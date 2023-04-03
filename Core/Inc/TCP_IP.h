@@ -6,12 +6,12 @@
 #endif /* INC_TCP_IP_H_ */
 
 #define PORT_ADDR			6656
-#define PING_CMD			"PING#2"
-#define PING_ACK_CMD		"ACK@PING"
+#define PING_CMD			"MCUPING#2"
+#define PING_ACK_CMD		"ACK@MCUPING"
 
 #define SYS_INIT_CMD		"SYSINIT#1"
 #define ABOX_READY_CMD		"AboxReady"
-#define ABOX_NOT_READY_CMD		"ABOXNOTREADY"
+#define ABOX_NOT_READY_CMD	"ABOXNOTREADY"
 #define INIT_CMD			"INIT#1"
 #define GRAB_START_CMD		"GRABSTART#1"
 #define GRAB_STOP_CMD		"GRABSTOP#1"

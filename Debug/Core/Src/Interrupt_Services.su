@@ -1,5 +1,0 @@
-../Core/Src/Interrupt_Services.c:29:6:Manual_delay	16	static
-../Core/Src/Interrupt_Services.c:37:6:Lan_Interrupt_Service	8	static
-../Core/Src/Interrupt_Services.c:63:6:WR_Interrupt_Service	8	static
-../Core/Src/Interrupt_Services.c:103:6:FCT_Interrupt_Service	8	static
-../Core/Src/Interrupt_Services.c:155:6:WL_Interrupt_Service	8	static
