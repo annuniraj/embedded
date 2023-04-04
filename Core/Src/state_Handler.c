@@ -22,32 +22,25 @@ void Initilisation_State_Handler()
 {
 	Set_state(Initilisation_State);
 	Reset_event();
-	//Initialize the TCPIP Connection
 	Init_Ethernet();
-	//Check the physical Connection of TCP IP
 	ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP); // gets physical status of the TCPIP
 
 	if(Phy_TCP_IP==PHY_LINK_OFF)
 	{
-		//Save the status in the flash memory with date and time stamp+++++++++++++++++++++
 		Set_state(Initilisation_State);
 	}
 	else if(Phy_TCP_IP==PHY_LINK_ON)
 	{
-		HAL_Delay(100);
-		//Connect the TCP iP Connection
 		Refresh_Watchdog();
 		Ethernet_Connect();
-		HAL_Delay(100);
-
 		send(0, (uint8_t *)SYS_INIT_CMD,strlen(SYS_INIT_CMD));
+		memset(Recv_Cmd,0,sizeof Recv_Cmd);
 
 		while(strcmp(Recv_Cmd,Abox_Ready)!=0)
 		{
 			uint32_t remoteee;
 			memset(Recv_Cmd,0,sizeof Recv_Cmd);
 			PortStatus=recv(0, Recv_Cmd,2048);
-			HAL_Delay(100);
 	  		ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
 	  		if(PortStatus==SOCKERR_SOCKSTATUS)
 	  		{
@@ -85,7 +78,7 @@ void Reset_State_Handler()
 	Lt_Rt_flag=0;
 	Rt_Lt_flag=0;
 	memset(Recv_Cmd,0,sizeof Recv_Cmd);
-	send(0, (uint8_t *)"RESET",strlen("RESET"));
+	//send(0, (uint8_t *)"RESET",strlen("RESET"));
 	//set the event to idle
 	Set_event(Idle_Event);
 }
@@ -96,7 +89,7 @@ void Idle_State_Handler()
 	Set_state(Idle_State);
 
 
-	send(0, (buff_size *)" Idle,",strlen(" Idle,"));
+	//send(0, (buff_size *)" Idle,",strlen(" Idle,"));
 	//reset the event
 	Reset_event();
 	//
