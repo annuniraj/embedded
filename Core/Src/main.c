@@ -323,14 +323,22 @@ int main(void)
 	  						WLSide_Train_Presence_State_Handler();
 	  						break;
 	  					}
+
+	  					if(strcmp(Abox_not_ready,Recv_Ping)==0)
+	  					{
+	  						Timer17_Stop();
+	  						tim17_count=0;
+	  						Set_state(Reset_State);
+	  						break;
+	  					}
+	  					else(strcmp(Ping_ack,Recv_Ping)!=0)
+	  					{
+	  						Timer17_Stop();
+	  						tim17_count=0;
+	  						Set_state(Initilisation_State);
+	  						break;
+	  					}
 	  				}
-  					if((strcmp(Ping_ack,Recv_Ping)!=0) || (strcmp(Abox_not_ready,Recv_Ping)==0))
-  					{
-  						Timer17_Stop();
-  						tim17_count=0;
-  						Set_state(Initilisation_State);
-  						break;
-  					}
 	  				Timer17_Stop();
 	  				tim17_count=0;
 	  			  }
