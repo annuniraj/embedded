@@ -331,7 +331,7 @@ int main(void)
 	  						Set_state(Reset_State);
 	  						break;
 	  					}
-	  					else(strcmp(Ping_ack,Recv_Ping)!=0)
+	  					else if(strcmp(Ping_ack,Recv_Ping)!=0)
 	  					{
 	  						Timer17_Stop();
 	  						tim17_count=0;

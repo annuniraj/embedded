@@ -6338,15 +6338,15 @@ LOAD c:/st/stm32cubeide_1.8.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                                       0x8edac (size before relaxing)
  .debug_str     0x000000000008ee4b       0xe4 ./Core/Src/event.o
                                        0x2e02 (size before relaxing)
- .debug_str     0x000000000008ef2f     0x179e ./Core/Src/main.o
+ .debug_str     0x000000000008ef2f     0x1733 ./Core/Src/main.o
                                       0x906c1 (size before relaxing)
- .debug_str     0x00000000000906cd      0x157 ./Core/Src/ring.o
+ .debug_str     0x0000000000090662      0x157 ./Core/Src/ring.o
                                        0x70a0 (size before relaxing)
- .debug_str     0x0000000000090824      0x3a8 ./Core/Src/socket.o
+ .debug_str     0x00000000000907b9      0x3a8 ./Core/Src/socket.o
                                        0x710d (size before relaxing)
- .debug_str     0x0000000000090bcc       0x46 ./Core/Src/state.o
+ .debug_str     0x0000000000090b61       0x46 ./Core/Src/state.o
                                        0x2e0f (size before relaxing)
- .debug_str     0x0000000000090c12       0x30 ./Core/Src/state_Handler.o
+ .debug_str     0x0000000000090ba7       0x9b ./Core/Src/state_Handler.o
                                       0x8f08f (size before relaxing)
  .debug_str     0x0000000000090c42      0x107 ./Core/Src/stm32f3xx_hal_msp.o
                                       0x8fae0 (size before relaxing)
