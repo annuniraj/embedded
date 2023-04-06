@@ -12,12 +12,6 @@
  					FCT_Counts,
  					WL_Counts;
 
- uint8_t Recv_Cmd[2048];
- uint8_t Abox_Ready[2048] = "ABOXREADY";
- extern uint8_t remotePort;
- extern uint32_t PortStatus;
- extern uint8_t remote;
-
 void Initilisation_State_Handler()
 {
 	Set_state(Initilisation_State);
@@ -34,21 +28,6 @@ void Initilisation_State_Handler()
 		Refresh_Watchdog();
 		Ethernet_Connect();
 		send(0, (uint8_t *)SYS_INIT_CMD,strlen(SYS_INIT_CMD));
-//		memset(Recv_Cmd,0,sizeof Recv_Cmd);
-//		while(strcmp(Recv_Cmd,Abox_Ready)!=0)
-//		{
-//			memset(Recv_Cmd,0,sizeof Recv_Cmd);
-//			PortStatus=recv(0, Recv_Cmd,2048);
-//	  		ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
-//	  		if(PortStatus==SOCKERR_SOCKSTATUS)
-//	  		{
-//	  			break;
-//	  		}
-//	  		if(Phy_TCP_IP==PHY_LINK_OFF)
-//	  		{
-//	  			break;
-//	  		}
-//		}
 		Set_event(Reset_Event);
 	}
 }
@@ -75,31 +54,6 @@ void Reset_State_Handler()
 	Entry_flag=0;
 	Lt_Rt_flag=0;
 	Rt_Lt_flag=0;
-	memset(Recv_Cmd,0,sizeof Recv_Cmd);
-
-	if(Phy_TCP_IP==PHY_LINK_OFF)
-	{
-		Set_state(Initilisation_State);
-	}
-	else if(Phy_TCP_IP==PHY_LINK_ON)
-	{
-		memset(Recv_Cmd,0,sizeof Recv_Cmd);
-
-		while(strcmp(Recv_Cmd,Abox_Ready)!=0)
-		{
-			memset(Recv_Cmd,0,sizeof Recv_Cmd);
-			PortStatus=recv(0, Recv_Cmd,2048);
-	  		ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
-	  		if(PortStatus==SOCKERR_SOCKSTATUS)
-	  		{
-	  			break;
-	  		}
-	  		if(Phy_TCP_IP==PHY_LINK_OFF)
-	  		{
-	  			break;
-	  		}
-		}
-	}
 	Set_event(Idle_Event);
 }
 

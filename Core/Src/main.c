@@ -88,6 +88,12 @@ uint8_t remote;
 uint8_t Ping_ack[2048] = PING_ACK_CMD;
 uint8_t Abox_not_ready[2048] = ABOX_NOT_READY_CMD;
 uint8_t Recv_Ping[2048];
+
+uint8_t Recv_Cmd[2048];
+uint8_t Abox_Ready[2048] = "ABOXREADY";
+extern uint8_t remotePort;
+extern uint32_t PortStatus;
+extern uint8_t remote;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -259,6 +265,31 @@ int main(void)
 	  		  break;
 
 	  	  case Reset_State:
+		  		memset(Recv_Cmd,0,sizeof Recv_Cmd);
+
+		  		if(Phy_TCP_IP==PHY_LINK_OFF)
+		  		{
+		  			Set_state(Initilisation_State);
+		  		}
+		  		else if(Phy_TCP_IP==PHY_LINK_ON)
+		  		{
+		  			memset(Recv_Cmd,0,sizeof Recv_Cmd);
+
+		  			while(strcmp(Recv_Cmd,Abox_Ready)!=0)
+		  			{
+		  				memset(Recv_Cmd,0,sizeof Recv_Cmd);
+		  				PortStatus=recv(0, Recv_Cmd,2048);
+		  		  		ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
+		  		  		if(PortStatus==SOCKERR_SOCKSTATUS)
+		  		  		{
+		  		  			break;
+		  		  		}
+		  		  		if(Phy_TCP_IP==PHY_LINK_OFF)
+		  		  		{
+		  		  			break;
+		  		  		}
+		  			}
+		  		}
 	  		  if(Get_event()==Idle_Event)
 	  		  {
 	  			  Idle_State_Handler();
@@ -329,16 +360,17 @@ int main(void)
 	  						Timer17_Stop();
 	  						tim17_count=0;
 	  						Set_state(Reset_State);
-	  						break;
-	  					}
-	  					else if(strcmp(Ping_ack,Recv_Ping)!=0)
-	  					{
-	  						Timer17_Stop();
-	  						tim17_count=0;
-	  						Set_state(Initilisation_State);
+	  						Set_event(Idle_Event);
 	  						break;
 	  					}
 	  				}
+  					if(strcmp(Ping_ack,Recv_Ping)!=0 && (Get_state()!=Reset_State))
+  					{
+  						Timer17_Stop();
+  						tim17_count=0;
+  						Set_state(Initilisation_State);
+  						break;
+  					}
 	  				Timer17_Stop();
 	  				tim17_count=0;
 	  			  }
