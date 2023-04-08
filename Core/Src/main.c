@@ -334,12 +334,16 @@ int main(void)
 	  			  //HAL_Delay(1000);
 	  			  if (tim16_count>TIM16TIMEOOUTPERIOD)
 	  			  {
-	  				send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
+	  				  memset(Recv_Ping,0,sizeof Recv_Ping);
+	  				  recv(0, Recv_Ping,2048);
+	  				  if(strcmp(Abox_not_ready,Recv_Ping)!=0)
+	  				  {
+	  					send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
+	  				  }
 	  				Timer16_Stop();
 	  				tim16_count=0;
 	  				Timer16_Start();
 	  				Timer17_Start();
-	  				memset(Recv_Ping,0,sizeof Recv_Ping);
 
 	  				while(tim17_count<TIM17TIMEOOUTPERIOD)
 	  				{
