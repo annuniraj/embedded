@@ -250,7 +250,7 @@ int main(void)
 	  	  case Initilisation_State:
 	  		  Initilisation_State_Handler();
 
-	  		  if(Get_event()==Reset_Event)
+	  		  if(Get_event()==Health_Event)
 	  		  {
 		  		  ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
 		  		  if((Phy_TCP_IP==PHY_LINK_OFF) || (PortStatus==SOCKERR_SOCKSTATUS))
@@ -259,37 +259,20 @@ int main(void)
 		  		  }
 		  		  else
 		  		  {
-		  			Reset_State_Handler();
+		  			Set_state (Health_State);//Health_State_Handler();
 		  		  }
 	  		  }
 	  		  break;
 
+	  	  case Health_State:
+	  		  Health_State_Handler();
+	  		  if(Get_event()==Reset_Event)
+	  		  {
+	  			  Reset_State_Handler();
+	  		  }
+	  		  break;
+
 	  	  case Reset_State:
-		  		memset(Recv_Cmd,0,sizeof Recv_Cmd);
-
-		  		if(Phy_TCP_IP==PHY_LINK_OFF)
-		  		{
-		  			Set_state(Initilisation_State);
-		  		}
-		  		else if(Phy_TCP_IP==PHY_LINK_ON)
-		  		{
-		  			memset(Recv_Cmd,0,sizeof Recv_Cmd);
-
-		  			while(strcmp(Recv_Cmd,Abox_Ready)!=0)
-		  			{
-		  				memset(Recv_Cmd,0,sizeof Recv_Cmd);
-		  				PortStatus=recv(0, Recv_Cmd,2048);
-		  		  		ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
-		  		  		if(PortStatus==SOCKERR_SOCKSTATUS)
-		  		  		{
-		  		  			break;
-		  		  		}
-		  		  		if(Phy_TCP_IP==PHY_LINK_OFF)
-		  		  		{
-		  		  			break;
-		  		  		}
-		  			}
-		  		}
 	  		  if(Get_event()==Idle_Event)
 	  		  {
 	  			  Idle_State_Handler();
@@ -363,12 +346,12 @@ int main(void)
 	  					{
 	  						Timer17_Stop();
 	  						tim17_count=0;
-	  						Set_state(Reset_State);
-	  						Set_event(Idle_Event);
+	  						Set_state(Health_State);
+	  						Set_event(Reset_Event);
 	  						break;
 	  					}
 	  				}
-  					if(strcmp(Ping_ack,Recv_Ping)!=0 && (Get_state()!=Reset_State))
+  					if(strcmp(Ping_ack,Recv_Ping)!=0 && (Get_state()!=Health_State))
   					{
   						Timer17_Stop();
   						tim17_count=0;

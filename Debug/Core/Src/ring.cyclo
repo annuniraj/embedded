@@ -1,0 +1,12 @@
+ring.c:11:10:RingGetElementsCapacity	1
+ring.c:15:10:RingGetSpace	1
+ring.c:19:10:RingGetDataCnt	1
+ring.c:24:14:RingInit	5
+ring.c:45:14:RingInitAlloc	3
+ring.c:58:14:RingWriteElement	5
+ring.c:84:14:RingWriteElements	7
+ring.c:126:14:RingReadElement	2
+ring.c:148:14:RingReadElements	3
+ring.c:178:10:RingGetHead	1
+ring.c:182:10:RingGetTail	1
+ring.c:186:14:RingGetLastElement	3

@@ -17,6 +17,7 @@
 #endif /* INC_STATE_HANDLER_H_ */
 
 void Initilisation_State_Handler();
+void Health_State_Handler();
 void Reset_State_Handler();
 void Idle_State_Handler();
 void WRSide_Train_Presence_State_Handler();

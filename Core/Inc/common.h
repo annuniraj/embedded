@@ -9,6 +9,7 @@
 
 typedef enum {
 	NULL_Event,
+	Health_Event,
 	Reset_Event,
 	Idle_Event,
 	WRSide_Train_Detect_Event,
@@ -20,6 +21,7 @@ typedef enum {
 typedef enum {
 	NULL_State,
 	Initilisation_State,
+	Health_State,
 	Reset_State,
 	Idle_State,
 	WRSide_Train_Presence_State,

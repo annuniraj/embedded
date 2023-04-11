@@ -1,0 +1,12 @@
+socket.c:109:8:socket	19
+socket.c:202:8:close	4
+socket.c:245:8:listen	6
+socket.c:261:8:connect	12
+socket.c:302:8:disconnect	7
+socket.c:323:9:send	16
+socket.c:391:9:recv	17
+socket.c:513:9:sendto	19
+socket.c:618:9:recvfrom	25
+socket.c:800:9:ctlsocket	14
+socket.c:845:9:setsockopt	14
+socket.c:898:9:getsockopt	17
