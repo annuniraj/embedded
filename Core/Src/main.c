@@ -134,12 +134,14 @@ void Timer2_Start()
 
 void Timer6_Start()
 {
+	HAL_TIM_Base_Init(&htim6);
 	HAL_TIM_Base_Start_IT(&htim6);
 }
 
 void Timer6_Stop()
 {
 	HAL_TIM_Base_Stop_IT(&htim6);
+	HAL_TIM_Base_DeInit(&htim6);
 }
 
 void Timer16_Start()
@@ -299,14 +301,14 @@ int main(void)
 //	  		  }
 
 	  		   //Check for physical connection.
-	  		  ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
-	  		  if(Phy_TCP_IP==PHY_LINK_OFF)
-	  		  {
-	  			  Set_state(Initilisation_State);
-	  		  }
-
-	  		  else if(Phy_TCP_IP==PHY_LINK_ON)
-	  		  {
+//	  		  ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
+//	  		  if(Phy_TCP_IP==PHY_LINK_OFF)
+//	  		  {
+//	  			  Set_state(Initilisation_State);
+//	  		  }
+//
+//	  		  else if(Phy_TCP_IP==PHY_LINK_ON)
+//	  		  {
 	  			  //sprintf(message1, "Time: %2.2u:%2.2u:%2.2u\n\r", sTime.Hours, sTime.Minutes, sTime.Seconds);
 	  			  //send(0, (uint32_t *)message1,strlen(message1));
 	  			  //sprintf(message, "Date: %2.2u-%2.2u-%4.4u\n\r", sDate.Date, sDate.Month, sDate.Year + YearStart,sTime.);
@@ -358,7 +360,7 @@ int main(void)
 	  				Timer17_Stop();
 	  				tim17_count=0;
 	  			  }
-	  		  }
+	  		  //}
 	  		  break;
 
 	  	  case WRSide_Train_Presence_State:
