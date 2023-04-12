@@ -89,11 +89,7 @@ uint8_t Ping_ack[2048] = PING_ACK_CMD;
 uint8_t Abox_not_ready[2048] = ABOX_NOT_READY_CMD;
 uint8_t Recv_Ping[2048];
 
-uint8_t Recv_Cmd[2048];
-uint8_t Abox_Ready[2048] = "ABOXREADY";
-extern uint8_t remotePort;
-extern uint32_t PortStatus;
-extern uint8_t remote;
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -253,7 +249,8 @@ int main(void)
 	  		  if(Get_event()==Health_Event)
 	  		  {
 		  		  ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
-		  		  if((Phy_TCP_IP==PHY_LINK_OFF) || (PortStatus==SOCKERR_SOCKSTATUS))
+		  		  //if((Phy_TCP_IP==PHY_LINK_OFF) || (PortStatus==SOCKERR_SOCKSTATUS))
+		  		  if(Phy_TCP_IP==PHY_LINK_OFF)
 		  		  {
 		  			  Set_state(Initilisation_State);
 		  		  }
@@ -292,14 +289,14 @@ int main(void)
 	  			  WLSide_Train_Presence_State_Handler();
 	  		  }
 
-	  		  uint8_t  server_Address[4] = {192,168,1,111};
-	  		  Refresh_Watchdog();
-	  		  connect(0,server_Address,PORT_ADDR);
-	  		  remote = getsockopt(0,SO_STATUS, &remotePort);
-	  		  if(remotePort==28)
-	  		  {
-	  			  Set_state(Initilisation_State);
-	  		  }
+//	  		  uint8_t  server_Address[4] = {192,168,1,111};
+//	  		  Refresh_Watchdog();
+//	  		  connect(0,server_Address,PORT_ADDR);
+//	  		  remote = getsockopt(0,SO_STATUS, &remotePort);
+//	  		  if(remotePort==28)
+//	  		  {
+//	  			  Set_state(Initilisation_State);
+//	  		  }
 
 	  		   //Check for physical connection.
 	  		  ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);

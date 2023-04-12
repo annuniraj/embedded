@@ -12,6 +12,12 @@
  					FCT_Counts,
  					WL_Counts;
 
+ uint8_t Recv_Cmd[2048];
+ uint8_t Abox_Ready[2048] = "ABOXREADY";
+ extern uint8_t remotePort;
+ extern uint32_t PortStatus;
+ extern uint8_t remote;
+
 void Initilisation_State_Handler()
 {
 	Set_state(Initilisation_State);

@@ -1,7 +1,8 @@
-../Core/Src/state_Handler.c:15:6:Initilisation_State_Handler	8	static
-../Core/Src/state_Handler.c:35:6:Reset_State_Handler	8	static
-../Core/Src/state_Handler.c:60:6:Idle_State_Handler	8	static
-../Core/Src/state_Handler.c:72:6:WRSide_Train_Presence_State_Handler	8	static
-../Core/Src/state_Handler.c:86:6:WLSide_Train_Presence_State_Handler	8	static
-../Core/Src/state_Handler.c:98:6:Train_Exit_State_Handler	8	static
-../Core/Src/state_Handler.c:109:6:Log_Data_State_Handler	8	static
+../Core/Src/state_Handler.c:21:6:Initilisation_State_Handler	8	static
+../Core/Src/state_Handler.c:40:6:Health_State_Handler	8	static
+../Core/Src/state_Handler.c:71:6:Reset_State_Handler	8	static
+../Core/Src/state_Handler.c:96:6:Idle_State_Handler	8	static
+../Core/Src/state_Handler.c:108:6:WRSide_Train_Presence_State_Handler	8	static
+../Core/Src/state_Handler.c:122:6:WLSide_Train_Presence_State_Handler	8	static
+../Core/Src/state_Handler.c:134:6:Train_Exit_State_Handler	8	static
+../Core/Src/state_Handler.c:145:6:Log_Data_State_Handler	8	static
