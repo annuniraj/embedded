@@ -108,6 +108,7 @@ void spi_wb(uint8_t b)
 
 void Timer2_Stop()
 {
+	HAL_TIM_Base_DeInit(&htim2);
 	HAL_TIM_Base_Stop(&htim2);
 }
 

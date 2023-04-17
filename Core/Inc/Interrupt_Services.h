@@ -33,3 +33,4 @@ void WR_Interrupt_Service(void);
 void FCT_Interrupt_Service(void);
 void WL_Interrupt_Service(void);
 void Manual_delay(void);
+void Save_delay(void);

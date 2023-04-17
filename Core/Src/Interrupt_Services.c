@@ -26,6 +26,14 @@
 
  uint8_t Receive_Buffer[255];
 
+ void Save_delay(void)
+ {
+ 	for(int i=0;i<=500000;i++)
+ 	{
+
+ 	}
+ }
+
 void Manual_delay(void)
 {
 	for(int i=0;i<=500;i++)
@@ -71,7 +79,7 @@ void WR_Interrupt_Service(void)
 		switch(WR_Counts)
 		{
 		case(1):
-				send(0, (uint8_t *)INIT_CMD,strlen(INIT_CMD));
+				//send(0, (uint8_t *)INIT_CMD,strlen(INIT_CMD));
 		        Timer2_Start();
 				WR_Instant=Timer2_GetTimer();
 				RingWriteElement(&WR_Ring,&WR_Instant);
@@ -163,7 +171,7 @@ void WL_Interrupt_Service(void)
 		switch(WL_Counts)
 		{
 		case(1):
-				send(0, (uint8_t *)INIT_CMD,strlen(INIT_CMD));
+				//send(0, (uint8_t *)INIT_CMD,strlen(INIT_CMD));
 				Timer2_Start();
 				WL_Instant=Timer2_GetTimer();
 				RingWriteElement(&WL_Ring,&WL_Instant);

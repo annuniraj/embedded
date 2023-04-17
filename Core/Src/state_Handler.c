@@ -111,6 +111,7 @@ void WRSide_Train_Presence_State_Handler()
 	{
 		//set state to WRSide Train Presence state
 		Set_state(WRSide_Train_Presence_State);
+		send(0, (uint8_t *)INIT_CMD,strlen(INIT_CMD));
 
 		//send(0, (buff_size *)" WRSide,",strlen(" WRSide,"));
 		//reset the event
@@ -124,6 +125,7 @@ void WLSide_Train_Presence_State_Handler()
 	if(Get_state!=WLSide_Train_Presence_State)
 	{
 		Set_state(WLSide_Train_Presence_State);
+		send(0, (uint8_t *)INIT_CMD,strlen(INIT_CMD));
 
 		//send(0, (buff_size *)" WLSide,",strlen(" WLSide,"));
 		Reset_event();
@@ -136,6 +138,7 @@ void Train_Exit_State_Handler()
 	Set_state(Train_Exit_State);
 
 	//send(0, (buff_size *)" Exit,",strlen(" Exit,"));
+	send(0, (uint8_t *)GRAB_STOP_CMD,strlen(GRAB_STOP_CMD));
 	Reset_event();
 	//shut down the purge and close the shutters
 	//set the event to Log Data event
@@ -148,7 +151,11 @@ void Log_Data_State_Handler()
 
 	//send(0, (buff_size *)" Log,",strlen(" Log,"));
 	Reset_event();
+	send(0, (uint8_t *)LOG_START_CMD,strlen(LOG_START_CMD));
+	Save_delay();
 	Send_Data();
+	Save_delay();
+	send(0, (uint8_t *)LOG_STOP_CMD,strlen(LOG_STOP_CMD));
 	Set_event(Reset_Event);
 }
 

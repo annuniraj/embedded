@@ -1,6 +1,6 @@
 #ifndef RING_H_
 #define RING_H_
-#define BUFFERSIZE	200
+#define BUFFERSIZE	50
 
 #include <stdint.h>
 #include "stddef.h"
