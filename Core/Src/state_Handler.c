@@ -90,6 +90,7 @@ void Reset_State_Handler()
 	Entry_flag=0;
 	Lt_Rt_flag=0;
 	Rt_Lt_flag=0;
+	count=0;
 	Set_event(Idle_Event);
 }
 
