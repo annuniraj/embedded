@@ -300,7 +300,6 @@ int main(void)
 //	  		  {
 //	  			  Set_state(Initilisation_State);
 //	  		  }
-
 	  		   //Check for physical connection.
 //	  		  ctlwizchip(CW_GET_PHYLINK, (void*) &Phy_TCP_IP);
 //	  		  if(Phy_TCP_IP==PHY_LINK_OFF)
@@ -315,53 +314,51 @@ int main(void)
 	  			  //sprintf(message, "Date: %2.2u-%2.2u-%4.4u\n\r", sDate.Date, sDate.Month, sDate.Year + YearStart,sTime.);
 	  			  //send(0, (uint32_t *)message,strlen(message));
 	  			  //HAL_Delay(1000);
-	  			  if (tim16_count>TIM16TIMEOOUTPERIOD)
+	  		  if (tim16_count>TIM16TIMEOOUTPERIOD)
+	  		  {
+	  			  memset(Recv_Ping,0,sizeof Recv_Ping);
+	  			  recv(0, Recv_Ping,2048);
+	  			  if(strcmp(Abox_not_ready,Recv_Ping)!=0)
 	  			  {
-	  				  memset(Recv_Ping,0,sizeof Recv_Ping);
-	  				  recv(0, Recv_Ping,2048);
-	  				  if(strcmp(Abox_not_ready,Recv_Ping)!=0)
-	  				  {
-	  					send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
-	  				  }
-	  				Timer16_Stop();
-	  				tim16_count=0;
-	  				Timer16_Start();
-	  				Timer17_Start();
-
-	  				while(tim17_count<TIM17TIMEOOUTPERIOD)
-	  				{
-	  					recv(0, Recv_Ping,2048);
-	  					if(Get_event()==WRSide_Train_Detect_Event)
-	  					{
-	  						WRSide_Train_Presence_State_Handler();
-	  						break;
-	  					}
-	  					else if (Get_event()==WLSide_Train_Detect_Event)
-	  					{
-	  						WLSide_Train_Presence_State_Handler();
-	  						break;
-	  					}
-
-	  					if(strcmp(Abox_not_ready,Recv_Ping)==0)
-	  					{
-	  						Timer17_Stop();
-	  						tim17_count=0;
-	  						Set_state(Health_State);
-	  						Set_event(Reset_Event);
-	  						break;
-	  					}
-	  				}
-  					if(strcmp(Ping_ack,Recv_Ping)!=0 && (Get_state()!=Health_State))
-  					{
-  						Timer17_Stop();
-  						tim17_count=0;
-  						Set_state(Initilisation_State);
-  						break;
-  					}
-	  				Timer17_Stop();
-	  				tim17_count=0;
+	  				  send(0, (uint8_t *)PING_CMD,strlen(PING_CMD));
 	  			  }
-	  		  //}
+	  			  Timer16_Stop();
+	  			  tim16_count=0;
+	  			  Timer16_Start();
+	  			  Timer17_Start();
+
+	  			  while(tim17_count<TIM17TIMEOOUTPERIOD)
+	  			  {
+	  				  recv(0, Recv_Ping,2048);
+	  				  if(Get_event()==WRSide_Train_Detect_Event)
+	  				  {
+	  					  WRSide_Train_Presence_State_Handler();
+	  					  break;
+	  				  }
+	  				  else if (Get_event()==WLSide_Train_Detect_Event)
+	  				  {
+	  					  WLSide_Train_Presence_State_Handler();
+	  					  break;
+	  				  }
+	  				  if(strcmp(Abox_not_ready,Recv_Ping)==0)
+	  				  {
+	  					  Timer17_Stop();
+	  					  tim17_count=0;
+	  					  Set_state(Health_State);
+	  					  Set_event(Reset_Event);
+	  					  break;
+	  				  }
+	  			  }
+	  			  if(strcmp(Ping_ack,Recv_Ping)!=0 && (Get_state()!=Health_State))
+	  			  {
+	  				  Timer17_Stop();
+	  				  tim17_count=0;
+	  				  Set_state(Initilisation_State);
+	  				  break;
+	  			  }
+	  			  Timer17_Stop();
+	  			  tim17_count=0;
+	  		  }
 	  		  break;
 
 	  	  case WRSide_Train_Presence_State:
