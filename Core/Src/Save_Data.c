@@ -114,9 +114,9 @@ void Send_Data()
 //	itoa(WR_Counts,WR_Count_Bulletin,10);
 //	send(0, (buff_size *)strcat(WR_Count_Bulletin,","),strlen(WR_Count_Bulletin));
 //
-//	HAL_Delay(100);
-//	itoa(FCT_Counts,FCT_Count_Bulletin,10);
-//	send(0, (buff_size *)strcat(FCT_Count_Bulletin,","),strlen(FCT_Count_Bulletin));
+	Save_delay();
+	itoa(FCT_Counts,FCT_Count_Bulletin,10);
+	send(0, (buff_size *)strcat(FCT_Count_Bulletin,","),strlen(FCT_Count_Bulletin));
 //
 //	HAL_Delay(100);
 //	itoa(WL_Counts,WL_Count_Bulletin,10);

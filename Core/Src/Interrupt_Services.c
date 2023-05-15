@@ -36,7 +36,7 @@
 
 void Manual_delay(void)
 {
-	for(int i=0;i<=500;i++)
+	for(int i=0;i<=50000;i++)
 	{
 
 	}
@@ -138,7 +138,7 @@ void FCT_Interrupt_Service(void)
 		//HAL_Delay(200);
 
 		//Camera OFF
-		Manual_delay();
+		//Manual_delay();
 		Manual_delay();
 		HAL_GPIO_WritePin(GPIOA,CA_TRIG_LED_Pin,GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(GPIOB,CA_OP_Pin,GPIO_PIN_RESET);
