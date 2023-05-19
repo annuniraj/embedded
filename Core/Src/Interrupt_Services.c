@@ -118,6 +118,33 @@ void FCT_Interrupt_Service(void)
 	{
 		FCT_Instant=Timer2_GetTimer();
 		RingWriteElement(&FCT_Ring,&FCT_Instant);
+
+		//HAL_GPIO_WritePin(GPIOA,CA_TRIG_LED_Pin,GPIO_PIN_RESET);//test
+		//Laser ON
+		HAL_GPIO_WritePin(GPIOA,LA_TRIG_LED_Pin,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOB,LA_OP_Pin,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA,LA_OP1_Pin,GPIO_PIN_RESET);
+		Manual_delay();
+
+		//Camera ON
+		HAL_GPIO_WritePin(GPIOA,CA_TRIG_LED_Pin,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOB,CA_OP_Pin,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA,CA_OP1_Pin,GPIO_PIN_SET);
+		//HAL_Delay(200);
+
+		//Camera OFF
+		//Manual_delay();
+		Manual_delay();
+		HAL_GPIO_WritePin(GPIOA,CA_TRIG_LED_Pin,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB,CA_OP_Pin,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA,CA_OP1_Pin,GPIO_PIN_RESET);
+		Manual_delay();
+
+		//Laser OFF
+		HAL_GPIO_WritePin(GPIOA,LA_TRIG_LED_Pin,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB,LA_OP_Pin,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA,LA_OP1_Pin,GPIO_PIN_SET);
+
 	}
 	else if(Rt_Lt_flag==1)
 	{

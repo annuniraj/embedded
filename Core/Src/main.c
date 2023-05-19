@@ -921,6 +921,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   switch(GPIO_Pin)
   {
   case WR_IP_Pin:
+	  send(0, (buff_size *)" WRCall_MCU,",strlen(" WRCall_MCU,"));
 	  switch(Get_state()){
 	  case Idle_State:
 		  Set_event(WRSide_Train_Detect_Event);
@@ -939,7 +940,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	  break;
 
   case WL_IP_Pin:
-
+	  send(0, (buff_size *)" WLCall_MCU,",strlen(" WLCall_MCU,"));
 	  switch(Get_state()){
 	  case Idle_State:
 		  Set_event(WLSide_Train_Detect_Event);
@@ -960,8 +961,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 
   case F_IP_Pin:
-
-
+	  send(0, (buff_size *)" FCall_MCU,",strlen(" FCall_MCU,"));
 	  switch(Get_state())
 	  {
 	  case WRSide_Train_Presence_State:

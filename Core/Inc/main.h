@@ -18,7 +18,7 @@
   ******************************************************************************
   */
 #pragma once
-#define TIMEOOUTPERIOD 20
+#define TIMEOOUTPERIOD 120
 #define TIM16TIMEOOUTPERIOD	10
 #define TIM17TIMEOOUTPERIOD	5
 /* USER CODE END Header */
