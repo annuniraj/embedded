@@ -161,3 +161,8 @@ void Log_Data_State_Handler()
 }
 
 
+void Direct_Control_State_Handler()
+{
+	//Get into direct control
+	Set_state(Direct_Control_State);
+}

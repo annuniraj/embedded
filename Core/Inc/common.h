@@ -16,6 +16,15 @@ typedef enum {
 	WLSide_Train_Detect_Event,
 	Train_Exit_Event,
 	Log_Data_Event,
+	DCTR_INIT_Event,
+	DCTR_EXIT_Event,
+	DCTR_OPEN_SHUTTER_Event,
+	DCTR_CLOSE_SHUTTER_Event,
+	DCTR_TRIGGER_CAMERA_Event,
+	DCTR_TRIGGER_CAMERA_LASER_Event,
+	DCTR_PULSE_LASER_Event,
+	DCTR_PURGE_ON_Event,
+	DCTR_PURGE_OFF_Event,
 }myEvents;
 
 typedef enum {
@@ -28,5 +37,6 @@ typedef enum {
 	WLSide_Train_Presence_State,
 	Train_Exit_State,
 	Log_Data_State,
+	Direct_Control_State,
 }myStates;
 

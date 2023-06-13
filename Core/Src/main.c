@@ -19,7 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "helper.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -291,7 +291,11 @@ int main(void)
 	  		  {
 	  			  WLSide_Train_Presence_State_Handler();
 	  		  }
-
+			  if (Get_event() == DCTR_INIT_Event)
+			  {
+				  send(0, (uint8_t*)"TAKING DIRECT CONTROL", strlen("TAKING DIRECT CONTROL"));
+				  Direct_Control_State_Handler(); //Go into DC
+			  }
 //	  		  uint8_t  server_Address[4] = {192,168,1,111};
 //	  		  Refresh_Watchdog();
 //	  		  connect(0,server_Address,PORT_ADDR);
@@ -361,6 +365,33 @@ int main(void)
 	  		  }
 	  		  break;
 
+		  case Direct_Control_State:
+			  switch (Get_event())
+			  {
+
+
+			  case DCTR_EXIT_Event:
+				  send(0, (uint8_t*)"EXITING DIRECT CONTROL", strlen("EXITING DIRECT CONTROL"));
+				  Reset_State_Handler();
+				  break;
+
+			  case DCTR_TRIGGER_CAMERA_Event:
+				  trigger_camera();
+				  break;
+
+			  case DCTR_TRIGGER_CAMERA_LASER_Event:
+				  trigger_camera_laser();
+				  break;
+
+			  case DCTR_PULSE_LASER:
+				  pulse_laser();
+				  break
+
+			  default:
+				  break;
+			  }
+
+			  break;
 	  	  case WRSide_Train_Presence_State:
 
 //			  itoa(count,Count_Bulletin,10);
