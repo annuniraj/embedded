@@ -1,5 +1,5 @@
 #include"helper.h"
-#include"Interrupt_Services.c"
+#include"Interrupt_Services.h"
 
 void trigger_camera(uint32_t delay_milliseconds)
 {

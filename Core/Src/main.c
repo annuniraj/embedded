@@ -265,6 +265,7 @@ int main(void)
 	  		  break;
 
 	  	  case Health_State:
+	  		//send(0, (uint8_t*)"IN HEALTH STATE\n", strlen("IN HEALTH STATE\n"));
 	  		  Health_State_Handler();
 	  		  if(Get_event()==Reset_Event)
 	  		  {
@@ -273,6 +274,7 @@ int main(void)
 	  		  break;
 
 	  	  case Reset_State:
+	  		//send(0, (uint8_t*)"IN RESET STATE\n", strlen("IN RESET STATE\n"));
 	  		  if(Get_event()==Idle_Event)
 	  		  {
 	  			  Idle_State_Handler();
@@ -283,6 +285,11 @@ int main(void)
 	  		  break;
 
 	  	  case Idle_State:
+	  		recv(0, Recv_Ping,2048);
+	  		if(strcmp(Recv_Ping,DCTR_INIT)==0)
+	  			{
+	  			Set_event(DCTR_INIT_Event);
+	  			}
 	  		  if(Get_event()==WRSide_Train_Detect_Event)
 	  		  {
 	  			  WRSide_Train_Presence_State_Handler();
@@ -366,6 +373,19 @@ int main(void)
 	  		  break;
 
 		  case Direct_Control_State:
+			  memset(Recv_Ping,0,sizeof Recv_Ping);
+			  			  recv(0, Recv_Ping,2048);
+			  			  Set_event(NULL_Event);
+
+			  			if (Recv_Ping == DCTR_EXIT)
+			  				Set_event(DCTR_EXIT_Event);
+			  			if (Recv_Ping == DCTR_TRIGGER_CAMERA)
+			  				Set_event(DCTR_TRIGGER_CAMERA_Event);
+			  			if (Recv_Ping == DCTR_TRIGGER_CAMERA_LASER);
+			  				Set_event(DCTR_TRIGGER_CAMERA_LASER_Event);
+			  			if (Recv_Ping == DCTR_PULSE_LASER);
+
+			  				Set_event(DCTR_PULSE_LASER_Event);
 			  switch (Get_event())
 			  {
 
@@ -376,16 +396,19 @@ int main(void)
 				  break;
 
 			  case DCTR_TRIGGER_CAMERA_Event:
-				  trigger_camera();
+				  send(0, (uint8_t*)"ETRIGGER CAMERA VIA DIRECT CONTROL", strlen("TRIGGER CAMERA LASER VIA DIRECT CONTROL"));
+				  trigger_camera(10000);
 				  break;
 
 			  case DCTR_TRIGGER_CAMERA_LASER_Event:
-				  trigger_camera_laser();
+				  send(0, (uint8_t*)"TRIGGER CAMERA AND LASER VIA DIRECT CONTROL", strlen("TRIGGER CAMERA AND LASER VIA DIRECT CONTROL"));
+				  trigger_camera_laser(10000);
 				  break;
 
-			  case DCTR_PULSE_LASER:
-				  pulse_laser();
-				  break
+			  case DCTR_PULSE_LASER_Event:
+				  send(0, (uint8_t*)"TRIGGER LASER VIA DIRECT CONTROL", strlen("TRIGGER LASER VIA DIRECT CONTROL"));
+				  pulse_laser(10000);
+				  break;
 
 			  default:
 				  break;
