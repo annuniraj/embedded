@@ -41,7 +41,7 @@ void Health_State_Handler()
 {
 	//Set_state(Health_State);
 	Reset_event();
-	//send(0, (uint8_t*)"IN HEALTH STATE HANDLER\n", strlen("IN HEALTH STATE HANDLER\n"));
+	send(0, (uint8_t*)"MCU IN HEALTH STATE HANDLER\n", strlen("MCU IN HEALTH STATE HANDLER\n"));
 	memset(Recv_Cmd,0,sizeof Recv_Cmd);
 	if(Phy_TCP_IP==PHY_LINK_OFF)
 	{

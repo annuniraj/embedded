@@ -265,7 +265,7 @@ int main(void)
 	  		  break;
 
 	  	  case Health_State:
-	  		//send(0, (uint8_t*)"IN HEALTH STATE\n", strlen("IN HEALTH STATE\n"));
+	  		  send(0, (uint8_t*)"MCU IN HEALTH STATE\n", strlen("MCU IN HEALTH STATE\n"));
 	  		  Health_State_Handler();
 	  		  if(Get_event()==Reset_Event)
 	  		  {
@@ -274,7 +274,7 @@ int main(void)
 	  		  break;
 
 	  	  case Reset_State:
-	  		//send(0, (uint8_t*)"IN RESET STATE\n", strlen("IN RESET STATE\n"));
+	  		  send(0, (uint8_t*)"MCU IN RESET STATE\n", strlen("MCU IN RESET STATE\n"));
 	  		  if(Get_event()==Idle_Event)
 	  		  {
 	  			  Idle_State_Handler();
@@ -300,7 +300,7 @@ int main(void)
 	  		  }
 			  if (Get_event() == DCTR_INIT_Event)
 			  {
-				  send(0, (uint8_t*)"TAKING DIRECT CONTROL", strlen("TAKING DIRECT CONTROL"));
+				  send(0, (uint8_t*)"MCU TAKING DIRECT CONTROL", strlen("MCU TAKING DIRECT CONTROL"));
 				  Direct_Control_State_Handler(); //Go into DC
 			  }
 //	  		  uint8_t  server_Address[4] = {192,168,1,111};
@@ -373,19 +373,18 @@ int main(void)
 	  		  break;
 
 		  case Direct_Control_State:
+			  Set_event(NULL_Event);
 			  memset(Recv_Ping,0,sizeof Recv_Ping);
-			  			  recv(0, Recv_Ping,2048);
-			  			  Set_event(NULL_Event);
-
-			  			if (Recv_Ping == DCTR_EXIT)
+			  recv(0, Recv_Ping,2048);
+			  			if (strcmp(Recv_Ping,DCTR_EXIT)==0)
 			  				Set_event(DCTR_EXIT_Event);
-			  			if (Recv_Ping == DCTR_TRIGGER_CAMERA)
+			  			if (strcmp(Recv_Ping,DCTR_TRIGGER_CAMERA)==0)
 			  				Set_event(DCTR_TRIGGER_CAMERA_Event);
-			  			if (Recv_Ping == DCTR_TRIGGER_CAMERA_LASER);
+			  			if (strcmp(Recv_Ping,DCTR_TRIGGER_CAMERA_LASER)==0)
 			  				Set_event(DCTR_TRIGGER_CAMERA_LASER_Event);
-			  			if (Recv_Ping == DCTR_PULSE_LASER);
-
+			  			if (strcmp(Recv_Ping,DCTR_PULSE_LASER)==0)
 			  				Set_event(DCTR_PULSE_LASER_Event);
+
 			  switch (Get_event())
 			  {
 
@@ -396,7 +395,7 @@ int main(void)
 				  break;
 
 			  case DCTR_TRIGGER_CAMERA_Event:
-				  send(0, (uint8_t*)"ETRIGGER CAMERA VIA DIRECT CONTROL", strlen("TRIGGER CAMERA LASER VIA DIRECT CONTROL"));
+				  send(0, (uint8_t*)"TRIGGER CAMERA VIA DIRECT CONTROL", strlen("TRIGGER CAMERA LASER VIA DIRECT CONTROL"));
 				  trigger_camera(10000);
 				  break;
 
