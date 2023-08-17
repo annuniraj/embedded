@@ -19,7 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "helper.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -265,6 +265,7 @@ int main(void)
 	  		  break;
 
 	  	  case Health_State:
+	  		  send(0, (uint8_t*)"MCU IN HEALTH STATE\n", strlen("MCU IN HEALTH STATE\n"));
 	  		  Health_State_Handler();
 	  		  if(Get_event()==Reset_Event)
 	  		  {
@@ -273,6 +274,7 @@ int main(void)
 	  		  break;
 
 	  	  case Reset_State:
+	  		  send(0, (uint8_t*)"MCU IN RESET STATE\n", strlen("MCU IN RESET STATE\n"));
 	  		  if(Get_event()==Idle_Event)
 	  		  {
 	  			  Idle_State_Handler();
@@ -283,6 +285,11 @@ int main(void)
 	  		  break;
 
 	  	  case Idle_State:
+	  		recv(0, Recv_Ping,2048);
+	  		if(strcmp(Recv_Ping,DCTR_INIT)==0)
+	  			{
+	  			Set_event(DCTR_INIT_Event);
+	  			}
 	  		  if(Get_event()==WRSide_Train_Detect_Event)
 	  		  {
 	  			  WRSide_Train_Presence_State_Handler();
@@ -291,7 +298,11 @@ int main(void)
 	  		  {
 	  			  WLSide_Train_Presence_State_Handler();
 	  		  }
-
+			  if (Get_event() == DCTR_INIT_Event)
+			  {
+				  send(0, (uint8_t*)"MCU TAKING DIRECT CONTROL", strlen("MCU TAKING DIRECT CONTROL"));
+				  Direct_Control_State_Handler(); //Go into DC
+			  }
 //	  		  uint8_t  server_Address[4] = {192,168,1,111};
 //	  		  Refresh_Watchdog();
 //	  		  connect(0,server_Address,PORT_ADDR);
@@ -361,6 +372,48 @@ int main(void)
 	  		  }
 	  		  break;
 
+		  case Direct_Control_State:
+			  Set_event(NULL_Event);
+			  memset(Recv_Ping,0,sizeof Recv_Ping);
+			  recv(0, Recv_Ping,2048);
+			  			if (strcmp(Recv_Ping,DCTR_EXIT)==0)
+			  				Set_event(DCTR_EXIT_Event);
+			  			if (strcmp(Recv_Ping,DCTR_TRIGGER_CAMERA)==0)
+			  				Set_event(DCTR_TRIGGER_CAMERA_Event);
+			  			if (strcmp(Recv_Ping,DCTR_TRIGGER_CAMERA_LASER)==0)
+			  				Set_event(DCTR_TRIGGER_CAMERA_LASER_Event);
+			  			if (strcmp(Recv_Ping,DCTR_PULSE_LASER)==0)
+			  				Set_event(DCTR_PULSE_LASER_Event);
+
+			  switch (Get_event())
+			  {
+
+
+			  case DCTR_EXIT_Event:
+				  send(0, (uint8_t*)"EXITING DIRECT CONTROL", strlen("EXITING DIRECT CONTROL"));
+				  Reset_State_Handler();
+				  break;
+
+			  case DCTR_TRIGGER_CAMERA_Event:
+				  send(0, (uint8_t*)"TRIGGER CAMERA VIA DIRECT CONTROL", strlen("TRIGGER CAMERA LASER VIA DIRECT CONTROL"));
+				  trigger_camera(10000);
+				  break;
+
+			  case DCTR_TRIGGER_CAMERA_LASER_Event:
+				  send(0, (uint8_t*)"TRIGGER CAMERA AND LASER VIA DIRECT CONTROL", strlen("TRIGGER CAMERA AND LASER VIA DIRECT CONTROL"));
+				  trigger_camera_laser(10000);
+				  break;
+
+			  case DCTR_PULSE_LASER_Event:
+				  send(0, (uint8_t*)"TRIGGER LASER VIA DIRECT CONTROL", strlen("TRIGGER LASER VIA DIRECT CONTROL"));
+				  pulse_laser(10000);
+				  break;
+
+			  default:
+				  break;
+			  }
+
+			  break;
 	  	  case WRSide_Train_Presence_State:
 
 //			  itoa(count,Count_Bulletin,10);

@@ -51,7 +51,25 @@ void Lan_Interrupt_Service(void)
 //		{
 //			//Set State Idle State
 //		}
+		if (Get_state() == Direct_Control_State)
+		{
+			if (Receive_Buffer == DCTR_EXIT)
+				Set_event(DCTR_EXIT_Event);
+			if (Receive_Buffer == DCTR_TRIGGER_CAMERA)
+				Set_event(DCTR_TRIGGER_CAMERA_Event);
+			if (Receive_Buffer == DCTR_TRIGGER_CAMERA_LASER);
+				Set_event(DCTR_TRIGGER_CAMERA_LASER_Event);
+			if (Receive_Buffer == DCTR_PULSE_LASER);
+				Set_event(DCTR_PULSE_LASER_Event);
+		}
 
+		else if (Get_state() == Idle_State)
+		{
+			if (Receive_Buffer == DCTR_INIT)
+			{
+				Set_event(DCTR_INIT_Event);
+			}
+		}
 		memset(Receive_Buffer,0,sizeof Receive_Buffer);// clear the receiving buffer
 		setSn_IR(0, 0x04);
 	}

@@ -24,3 +24,4 @@ void WRSide_Train_Presence_State_Handler();
 void WLSide_Train_Presence_State_Handler();
 void Train_Exit_State_Handler();
 void Log_Data_State_Handler();
+void Direct_Control_State_Handler();
