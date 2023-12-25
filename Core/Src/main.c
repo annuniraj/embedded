@@ -88,7 +88,7 @@ uint8_t remote;
 uint8_t Ping_ack[2048] = PING_ACK_CMD;
 uint8_t Abox_not_ready[2048] = ABOX_NOT_READY_CMD;
 uint8_t Recv_Ping[2048];
-
+uint8_t  Emi_detect = 0;
 
 /* USER CODE END PFP */
 
