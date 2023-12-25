@@ -49,6 +49,7 @@ extern uint32_t count;
 extern uint32_t PortStatus;
 extern uint8_t remotePort;
 extern uint8_t remote;
+extern bool Emi_detect=false;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
