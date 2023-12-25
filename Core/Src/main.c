@@ -88,7 +88,7 @@ uint8_t remote;
 uint8_t Ping_ack[2048] = PING_ACK_CMD;
 uint8_t Abox_not_ready[2048] = ABOX_NOT_READY_CMD;
 uint8_t Recv_Ping[2048];
-uint8_t  Emi_detect = 0;
+uint8_t Emi_detect = 0;
 
 /* USER CODE END PFP */
 
@@ -182,6 +182,7 @@ int Timer2_GetTimer()
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -419,6 +420,22 @@ int main(void)
 //			  itoa(count,Count_Bulletin,10);
 //			  send(0, (uint32_t *)strcat(Count_Bulletin,","), strlen(Count_Bulletin));
 //			  HAL_Delay(1000);
+	  		  if(Emi_detect ==0)
+	  		  {
+	  			  //Start delay
+	  			  for(int em_del=0;em_del<10000;em_del++);
+		  		  if(WL_Counts>0)
+		  		  {
+		  			Set_event(Reset_Event);
+		  			Reset_State_Handler();
+		  		  }
+		  		  else
+		  		  {
+		  			  Emi_detect =1;
+		  			  WL_Counts=0;
+		  			  WR_Counts=0;
+		  		  }
+	  		  }
 
 			  if (count>TIMEOOUTPERIOD)
 			  {
@@ -436,7 +453,22 @@ int main(void)
 //			  itoa(count,Count_Bulletin1,10);
 //			  send(0, (uint32_t *)strcat(Count_Bulletin1,","), strlen(Count_Bulletin1));
 //			  HAL_Delay(1000);
-
+	  		  if(Emi_detect ==0)
+	  		  {
+	  			  //Start delay
+	  			  for(int em_del=0;em_del<10000;em_del++);
+		  		  if(WR_Counts>0)
+		  		  {
+		  			Set_event(Reset_Event);
+		  			Reset_State_Handler();
+		  		  }
+		  		  else
+		  		  {
+		  			  Emi_detect =1;
+		  			  WL_Counts=0;
+		  			  WR_Counts=0;
+		  		  }
+	  		  }
 			  if (count>TIMEOOUTPERIOD)
 			  {
 				  Set_event(Train_Exit_Event);

@@ -80,6 +80,7 @@ void Reset_State_Handler()
 	WR_Counts=0;
 	WL_Counts=0;
 	FCT_Counts=0;
+	Emi_detect =0;
 	//Reset the 32 bit timer 2
 	Timer2_Stop(); //Timer Stopped
 	Timer6_Stop();

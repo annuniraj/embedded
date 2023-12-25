@@ -94,6 +94,9 @@ void WR_Interrupt_Service(void)
 	Manual_delay();
 	HAL_GPIO_WritePin(GPIOA,WR_TRIG_LED_Pin,GPIO_PIN_RESET);
 	WR_Counts++;
+
+	if( Emi_detect==1)
+	{
 	if(Lt_Rt_flag==0)
 	{
 		switch(WR_Counts)
@@ -124,6 +127,8 @@ void WR_Interrupt_Service(void)
 		Timer6_Stop();
 		count=0;
 		Timer6_Start();
+	}
+
 	}
 }
 
@@ -213,6 +218,8 @@ void WL_Interrupt_Service(void)
 	Manual_delay();
 	HAL_GPIO_WritePin(GPIOB,WL_TRIG_LED_Pin,GPIO_PIN_RESET);
 	WL_Counts++;
+	if( Emi_detect==1)
+	{
 	if(Rt_Lt_flag==0)
 	{
 		switch(WL_Counts)
@@ -244,5 +251,6 @@ void WL_Interrupt_Service(void)
 		Timer6_Stop();
 		count=0;
 		Timer6_Start();
+	}
 	}
 }
